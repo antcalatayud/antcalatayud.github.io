@@ -1,158 +1,215 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<!--The viewport meta tag is used to improve the presentation and behavior of the samples
-	on iOS devices-->
-	<!--meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no"/ -->
-	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
-	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-	<meta name="apple-mobile-web-app-capable" content="yes">
-	<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no">
+    <title>Cluster</title>
+    <link rel="stylesheet" href="http://js.arcgis.com/3.13/dijit/themes/tundra/tundra.css">
+    <link rel="stylesheet" href="http://js.arcgis.com/3.13/esri/css/esri.css">
+    <style>
+      html, body { height: 100%; width: 100%; margin: 0; padding: 0; }
+      #map{ margin: 0; padding: 0; }
 
-	<title>Cycling around the world</title>
-	<link rel="shortcut icon" href="fm_style/favicon.ico" /> 
-	<link rel="icon" type="image/png" href="fm_style/fm_icons/globe2.png" />
+      /* center the image in the popup */
+      .esriViewPopup .gallery { margin: 0 auto !important; }
+    </style>
 
-	<link rel="stylesheet" type="text/css" href="http://serverapi.arcgisonline.com/jsapi/arcgis/3.0/js/esri/dijit/css/Popup.css" />
-  <link rel="stylesheet" type="text/css" href="http://serverapi.arcgisonline.com/jsapi/arcgis/3.0/js/esri/dijit/css/PopupMobile.css" />
-
- 	<link rel="stylesheet" href="http://js.arcgis.com/3.13/esri/css/esri.css" />
-
-	<link rel='stylesheet' type='text/css' href='fm_style/page.css' />
-  <link rel='stylesheet' type='text/css' href='fm_style/page_style3.css' />
-	
-	<script type="text/javascript" src='fm_javascript/page-header.js'></script>
-	<!--[if lte IE 8]>
-		<link rel='stylesheet' type='text/css' href='fm_style/ie.css' />
-		<script type='text/javascript' src='http://html5shiv.googlecode.com/svn/trunk/html5.js'></script>
-		<script type='text/javascript' src='fm_javascript/lib/respond.min.js'></script>
-	<![endif]-->
-
-	<link rel="apple-touch-icon" href="fm_style/fm_icons/globe2.png" />
-	<link rel="apple-touch-icon" sizes="72x72" href="fm_style/fm_icons/globe2-72.png" />
-	<link rel="apple-touch-icon" sizes="114x114" href="fm_style/fm_icons/globe2-114.png" />
-	
-	<link rel='stylesheet' type='text/css' href='fm_style/dojo-overrides.css' />
-</head>
-
-<body >
-	<!-- absolute elements (overlays) -->
-	<div class='fm_basemap_list fm_overlay'>
-		<div class='fm_close'></div>
-		<div id='basemapList' class='fm_handle'></div>
-	</div>
-	<div class='fm_measurement fm_overlay'>
-		<div class='fm_close'></div>
-		<div class='fm_handle' style='height: 100%;'><div id='measurementDiv'></div></div>
-	</div>
-	<div class='fm_search fm_overlay' >
-		<div class='fm_close fm_no_margin'></div>
-		<div class='fm_location_bar' class='fm_handle'>
-			<input type='text' class='fm_location_input' placeholder='Find location...' />
-			<span class='fm_location_button fm_icon fm_search_icon' ></span>
-		</div>
-	</div>
-
-	<header>
-		<div class='fm_title_bar'>Cycling around the world</div>
-        <div class='fm_title_bar fm_subtitle'>Check all the borrow bikes systems available around the world</div>
-
-	</header>
-	<<nav>
-		<div class='fm_nav'>
-        	<!-- float right elements are displayed in reverse order -->
-			
-            <!--
-			<a href='#' class='fm_measure_trigger fm_button fm_hide'>
-				<span class='fm_icon fm_measure_icon'></span>
-				<span class='fm_icon_text fm_show'>Measure</span>
-			</a>
-            -->
-			<!--<a href='#' class='fm_details_trigger fm_trigger fm_button fm_float_right' data-panel='fm_description' >
-				<span class='fm_icon fm_details_icon'></span>
-				<span class='fm_icon_text'>Details</span>
-			</a> -->
-			<a href='#' class='fm_settings_trigger fm_trigger fm_button fm_float_right' data-panel='fm_settings' >
-				<span class='fm_icon fm_settings_icon'></span>
-				<span class='fm_icon_text'>Details</span>
-			</a>
-			
-			<!-- <a href='#' class='fm_trigger fm_button fm_float_right' data-panel='fm_print' >
-				<span class='fm_icon fm_print_icon'></span>
-				<span class='fm_icon_text'>Print</span> 
-			</a> -->
-            <a href='#' class='fm_legend_trigger fm_trigger fm_button fm_float_right' data-panel='fm_legend' >
-				<span class='fm_icon fm_legend_icon'></span>
-				<span class='fm_icon_text'>Legend</span>
-			</a>
-			<!-- <a href='#' class='fm_share_trigger fm_trigger fm_button fm_float_right' data-panel='fm_share' >
-				<span class='fm_icon fm_share_icon'></span>
-				<span class='fm_icon_text'>Share</span>
-			</a> -->
-            <a href='#' class='fm_search_trigger fm_button fm_float_right'>
-				<span class='fm_icon fm_search_icon'></span>
-				<span class='fm_icon_text fm_show'></span>
-			</a>
-            <a href='#' class='fm_basemap_trigger fm_button fm_float_right'>
-				<span class='fm_icon fm_basemap_icon'></span>
-				<span class='fm_icon_text fm_show'></span>
-			</a>
-		</div>
-	</nav>
-
-
-	<div class='fm_container_main'>
-		<!--div class='fm_left_content collapse'>
-			<div class='fm_close fm_hide'><img src='images/close.png' class='fm_close_icon' /></div>
-			<div class='fm_container'>sample description</div>
-		</div-->
-		<div class='fm_center_content fm_right'>
-			<img src='fm_style/fm_icons/crosshairs-gray.png' class='fm_find_me' />
-			<div id='map' class='fm_map tundra'></div>
-		</div>
-		<div class='fm_right_content'>
-			<div class='fm_close fm_hide'></div>
-			<!--div class='fm_panel_header'>
-				<div class='fm_panel_header_content fm_container'>Header</div>
-			</div-->
-			<div class='*fm_panel_container fm_container'>
-				<div class='fm_description fm_panel' >Map Description</div>
-				<div id='fm_legendDiv' class='fm_legend fm_panel' ></div>
-				<div class='fm_tools fm_panel' >Map Tools</div>
-				<div class='fm_print fm_panel' >Print Options</div>
-				<div class='fm_share fm_panel' >
-					<p>Embed code:</p>
-					<textarea class='fm_embed_code' ></textarea>
-				</div>
-				<div class='fm_settings fm_panel' >App Settings
-				
-				
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<footer>
-		<div class='fm_map_info'>
-			<span class='fm_coordsinfo' style="padding: 0 5px;"></span>|
-			<span class='fm_scaleinfo' style="padding: 0 5px;"></span>
-			|&nbsp;
-			<span class='fm_zoomlevelinfo' style="padding: 0 5px;"></span>
-		</div>
-	</footer>
-
-	<script type='text/javascript' src='fm_javascript/lib/jRespond.min.js'></script>
-	<script type='text/javascript' src='fm_javascript/lib/jquery-1.9.0.min.js'></script>
-	<script type='text/javascript' src='fm_javascript/lib/jquery-ui-1.8.21.custom.min.js'></script>
-	
-	<script>
-      var djConfig = { 
-		parseOnLoad: true
-	}
+    <script>
+      // helpful for understanding dojoConfig.packages vs. dojoConfig.paths:
+      // http://www.sitepen.com/blog/2013/06/20/dojo-faq-what-is-the-difference-packages-vs-paths-vs-aliases/
+      var dojoConfig = { 
+        paths: {
+          extras: location.pathname.replace(/\/[^/]+$/, "") + "/extras"
+        }
+      };
     </script>
     <script src="http://js.arcgis.com/3.13/"></script>
-	<script type="text/javascript" src='fm_javascript/map.js'></script>
-	<script type='text/javascript' src='fm_javascript/page.js'></script>
-</body>
+    <script>
+      var map;
+      require([
+        "dojo/parser", 
+        "dojo/ready",
+        "dojo/_base/array",
+        "esri/Color",
+        "dojo/dom-style",
+        "dojo/query",
+
+        "esri/map", 
+        "esri/request",
+        "esri/graphic",
+        "esri/geometry/Extent",
+
+        "esri/symbols/SimpleMarkerSymbol",
+        "esri/symbols/SimpleFillSymbol",
+        "esri/symbols/PictureMarkerSymbol",
+        "esri/renderers/ClassBreaksRenderer",
+
+        "esri/layers/GraphicsLayer",
+        "esri/SpatialReference",
+        "esri/dijit/PopupTemplate",
+        "esri/geometry/Point",
+        "esri/geometry/webMercatorUtils",
+
+        "extras/ClusterLayer",
+
+        "dijit/layout/BorderContainer", 
+        "dijit/layout/ContentPane", 
+        "dojo/domReady!"
+      ], function(
+        parser, ready, arrayUtils, Color, domStyle, query,
+        Map, esriRequest, Graphic, Extent,
+        SimpleMarkerSymbol, SimpleFillSymbol, PictureMarkerSymbol, ClassBreaksRenderer,
+        GraphicsLayer, SpatialReference, PopupTemplate, Point, webMercatorUtils,
+        ClusterLayer
+      ) {
+        ready(function() {
+          parser.parse();
+
+          var clusterLayer;
+          var popupOptions = {
+            "markerSymbol": new SimpleMarkerSymbol("circle", 20, null, new Color([0, 0, 0, 0.25])),
+            "marginLeft": "20",
+            "marginTop": "20"
+          };
+          map = new Map("map", {
+            basemap: "oceans",
+            center: [-117.789, 33.543],
+            zoom: 13
+          });
+
+          map.on("load", function() {
+            // hide the popup's ZoomTo link as it doesn't make sense for cluster features
+            domStyle.set(query("a.action.zoomTo")[0], "display", "none");
+
+            // get the latest 1000 photos from instagram/laguna beach
+            var photos = esriRequest({
+              url: "data/1000-photos.json",
+              handleAs: "json"
+            });
+            photos.then(addClusters, error);
+          });
+
+          function addClusters(resp) {
+            var photoInfo = {};
+            var wgs = new SpatialReference({
+              "wkid": 4326
+            });
+            photoInfo.data = arrayUtils.map(resp, function(p) {
+              var latlng = new  Point(parseFloat(p.lng), parseFloat(p.lat), wgs);
+              var webMercator = webMercatorUtils.geographicToWebMercator(latlng);
+              var attributes = {
+                "Caption": p.caption,
+                "Name": p.full_name,
+                "Image": p.image,
+                "Link": p.link
+              };
+              return {
+                "x": webMercator.x,
+                "y": webMercator.y,
+                "attributes": attributes
+              };
+            });
+
+            // popupTemplate to work with attributes specific to this dataset
+            var popupTemplate = new PopupTemplate({
+              "title": "",
+              "fieldInfos": [{
+                "fieldName": "Caption",
+                visible: true
+              }, {
+                "fieldName": "Name",
+                "label": "By",
+                visible: true
+              }, {
+                "fieldName": "Link",
+                "label": "On Instagram",
+                visible: true
+              }],
+              "mediaInfos": [{
+                "title": "",
+                "caption": "",
+                "type": "image",
+                "value": {
+                  "sourceURL": "{Image}",
+                  "linkURL": "{Link}"
+                }
+              }]
+            });
+
+            // cluster layer that uses OpenLayers style clustering
+            clusterLayer = new ClusterLayer({
+              "data": photoInfo.data,
+              "distance": 100,
+              "id": "clusters",
+              "labelColor": "#fff",
+              "labelOffset": 10,
+              "resolution": map.extent.getWidth() / map.width,
+              "singleColor": "#888",
+              "singleTemplate": popupTemplate
+            });
+            var defaultSym = new SimpleMarkerSymbol().setSize(4);
+            var renderer = new ClassBreaksRenderer(defaultSym, "clusterCount");
+
+            var picBaseUrl = "http://static.arcgis.com/images/Symbols/Shapes/";
+            var blue = new PictureMarkerSymbol(picBaseUrl + "BluePin1LargeB.png", 32, 32).setOffset(0, 15);
+            var green = new PictureMarkerSymbol(picBaseUrl + "GreenPin1LargeB.png", 64, 64).setOffset(0, 15);
+            var red = new PictureMarkerSymbol(picBaseUrl + "RedPin1LargeB.png", 72, 72).setOffset(0, 15);
+            renderer.addBreak(0, 2, blue);
+            renderer.addBreak(2, 200, green);
+            renderer.addBreak(200, 1001, red);
+
+            clusterLayer.setRenderer(renderer);
+            map.addLayer(clusterLayer);
+
+            // close the info window when the map is clicked
+            map.on("click", cleanUp);
+            // close the info window when esc is pressed
+            map.on("key-down", function(e) {
+              if (e.keyCode === 27) {
+                cleanUp();
+              }
+            });
+          }
+
+          function cleanUp() {
+            map.infoWindow.hide();
+            clusterLayer.clearSingles();
+          }
+
+          function error(err) {
+            console.log("something failed: ", err);
+          }
+
+          // show cluster extents...
+          // never called directly but useful from the console 
+          window.showExtents = function() {
+            var extents = map.getLayer("clusterExtents");
+            if ( extents ) {
+              map.removeLayer(extents);
+            }
+            extents = new GraphicsLayer({ id: "clusterExtents" });
+            var sym = new SimpleFillSymbol().setColor(new Color([205, 193, 197, 0.5]));
+
+            arrayUtils.forEach(clusterLayer._clusters, function(c, idx) {
+              var e = c.attributes.extent;
+              extents.add(new Graphic(new Extent(e[0], e[1], e[2], e[3], map.spatialReference), sym));
+            }, this);
+            map.addLayer(extents, 0);
+          };
+        });
+      });
+    </script>
+  </head>
+  
+  <body>
+    <div data-dojo-type="dijit/layout/BorderContainer" 
+         data-dojo-props="design:'headline',gutters:false" 
+         style="width: 100%; height: 100%; margin: 0;">
+      <div id="map" 
+           data-dojo-type="dijit/layout/ContentPane" 
+           data-dojo-props="region:'center'"> 
+      </div>
+    </div>
+  </body>
 </html>
+
