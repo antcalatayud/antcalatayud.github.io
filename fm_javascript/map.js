@@ -214,7 +214,6 @@ function getStationsBikes(arr) {
 		
     }
 		//map.graphics.add(BikeStationsLayer);
-
 			map.centerAndZoom(CityPt, 12);
 
 }
