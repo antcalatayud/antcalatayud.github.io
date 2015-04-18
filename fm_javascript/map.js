@@ -12,6 +12,8 @@ dojo.require("esri.arcgis.utils");
 dojo.require("esri.symbols.SimpleFillSymbol");
 dojo.require("esri.symbols.SimpleLineSymbol");
 
+dojo.require("esri.graphic");
+
 dojo.require("dijit.TooltipDialog");
 dojo.require("esri.Color");
 
@@ -21,7 +23,9 @@ dojo.require("esri.urlUtils");
 dojo.require("esri.geometry.Point");
 dojo.require("dojo._base.array");
 dojo.require("esri.SpatialReference");
-
+dojo.require("esri.symbols.SimpleMarkerSymbol");
+dojo.require("esri.renderers.ClassBreaksRenderer");
+dojo.require("esri.layers.GraphicsLayer");
 
 
 
@@ -162,8 +166,14 @@ function getStations(feature){
 	
 }
 function getStationsBikes(arr) {
+	//var BikeStationsLayer = new esri.layers.GraphicsLayer();
+	//BikeStationsLayer.clear();
+	map.graphics.clear();
 	var out = "";
     var i;
+	var wgs = new esri.SpatialReference({
+			"wkid": 4326
+		});
     for(i = 0; i < arr.network.stations.length; i++) {
 		StatName = arr.network.stations[i].name
 		StatLat = arr.network.stations[i].latitude;
@@ -172,109 +182,40 @@ function getStationsBikes(arr) {
 		StatFree = arr.network.stations[i].free_bikes;
 		StatTotal = StatEmpty + StatFree;
 		StatPercFree = (StatFree*100)/StatTotal;
-		var attributes = {
-			"Station Name": StatName,
-			"Percentage used": StatPercFree
-		};
-		var data = { "x": StatLong, "y": StatLat,"attributes": attributes}
-		var latlng = new  esri.geometry.Point(parseFloat(StatLong), parseFloat(StatLat));
 		
-
-		clusterLayer = new dojoConfig.packages[0].name.app.ClusterLayer({
-              "data": data
-		});
-		var defaultSym = new esri.symbol.SimpleMarkerSymbol().setSize(4);
-          var renderer = new esri.renderer.ClassBreaksRenderer(
-            defaultSym, 
-            "clusterCount"
-          );
-		 renderer.addBreak(0, 2, new esri.symbol.SimpleMarkerSymbol().setSize(8));
-          renderer.addBreak(2, 5, new esri.symbol.SimpleMarkerSymbol().setSize(18).setColor(new dojo.Color([0, 255, 0, 0.5])));
-          renderer.addBreak(5, 10, new esri.symbol.SimpleMarkerSymbol().setSize(24).setColor(new dojo.Color([255, 255, 0, 0.5])));
-          renderer.addBreak(10, 100, new esri.symbol.SimpleMarkerSymbol().setSize(30).setColor(new dojo.Color([255, 0, 0, 0.5])));
-		  
-		 clusterLayer.setRenderer(renderer);
-          map.addLayer(clusterLayer);
-		//out += "<b>Station name</b>: "+ StatName +
-        //       "<br><b>Percentage</b>: "+ StatPercFree.toFixed(2) +"%"
-        //out += '<a href="' + arr.network.stations[i].name + '">' + 
-        //arr.network.stations[i].free_bikes + '</a><br>';
+		var pt = new esri.geometry.Point(StatLong,StatLat,wgs)
+		var sms = new esri.symbol.SimpleMarkerSymbol();
+		//path ="M 313.00000,294.00000 C 324.00000,290.00000 330.00000,279.00000 330.00000,259.00000 L 330.00000,230.00000 L 263.00000,231.00000 C 225.00000,232.00000 203.00000,234.00000 213.00000,237.00000 C 245.00000,245.00000 230.00000,260.00000 190.00000,260.00000 C 168.00000,260.00000 150.00000,256.00000 150.00000,250.00000 C 150.00000,244.00000 157.00000,240.00000 165.00000,240.00000 C 183.00000,240.00000 185.00000,214.00000 168.00000,203.00000 C 161.00000,199.00000 134.00000,195.00000 108.00000,195.00000 C 29.000000,195.00000 -14.000000,133.00000 16.000000,62.000000 C 31.000000,24.000000 86.000000,-4.0000000 125.00000,6.0000000 C 139.00000,9.0000000 161.00000,25.000000 174.00000,41.000000 C 203.00000,75.000000 235.00000,81.000000 227.00000,50.000000 C 224.00000,39.000000 225.00000,30.000000 230.00000,30.000000 C 234.00000,30.000000 240.00000,40.000000 244.00000,53.000000 C 247.00000,65.000000 273.00000,100.00000 301.00000,130.00000 C 329.00000,160.00000 344.00000,174.00000 336.00000,160.00000 C 318.00000,132.00000 315.00000,78.000000 331.00000,48.000000 C 348.00000,16.000000 405.00000,-3.0000000 445.00000,10.000000 C 501.00000,28.000000 528.00000,98.000000 500.00000,151.00000 C 484.00000,179.00000 432.00000,203.00000 398.00000,196.00000 C 374.00000,191.00000 368.00000,194.00000 359.00000,218.00000 C 353.00000,233.00000 348.00000,256.00000 347.00000,270.00000 C 345.00000,289.00000 339.00000,295.00000 320.00000,297.00000 C 305.00000,298.00000 302.00000,297.00000 313.00000,294.00000 z M 308.00000,168.00000 C 254.00000,102.00000 241.00000,105.00000 216.00000,188.00000 C 209.00000,209.00000 211.00000,210.00000 276.00000,210.00000 L 343.00000,210.00000 L 308.00000,168.00000 z M 213.00000,138.00000 C 227.00000,97.000000 227.00000,90.000000 214.00000,90.000000 C 206.00000,90.000000 200.00000,97.000000 200.00000,105.00000 C 200.00000,114.00000 193.00000,134.00000 185.00000,151.00000 C 176.00000,167.00000 172.00000,185.00000 176.00000,191.00000 C 185.00000,206.00000 195.00000,192.00000 213.00000,138.00000 z M 133.00000,173.00000 C 137.00000,170.00000 129.00000,152.00000 115.00000,134.00000 C 84.000000,93.000000 84.000000,90.000000 118.00000,89.000000 C 133.00000,89.000000 153.00000,85.000000 163.00000,82.000000 C 180.00000,75.000000 179.00000,73.000000 160.00000,52.000000 C 131.00000,21.000000 95.000000,14.000000 65.000000,34.000000 C 13.000000,68.000000 10.000000,123.00000 57.000000,160.00000 C 82.000000,180.00000 120.00000,186.00000 133.00000,173.00000 z M 465.00000,155.00000 C 516.00000,105.00000 485.00000,26.000000 415.00000,26.000000 C 369.00000,26.000000 340.00000,57.000000 340.00000,106.00000 C 340.00000,152.00000 356.00000,157.00000 386.00000,120.00000 C 419.00000,81.000000 430.00000,88.000000 400.00000,128.00000 C 388.00000,145.00000 381.00000,163.00000 384.00000,169.00000 C 396.00000,188.00000 440.00000,181.00000 465.00000,155.00000 z M 180.00000,113.00000 C 180.00000,100.00000 139.00000,95.000000 127.00000,106.00000 C 124.00000,110.00000 128.00000,124.00000 137.00000,137.00000 C 153.00000,161.00000 154.00000,161.00000 167.00000,144.00000 C 174.00000,134.00000 180.00000,120.00000 180.00000,113.00000 z "
+  
 		
+		if (StatPercFree <= 100) {
+			sms.setColor(new esri.Color([255, 0, 0, 0.5]));
+			//sms.setPath(path);
+			sms.setSize(6);
+		} 
+		else if (StatPercFree > 25 && StatPercFree <= 50) {
+			sms.setColor(new esri.Color([230, 255, 0, 0.5]));
+			//sms.setPath(path);
+			sms.setSize(8);
+		} else if (StatPercFree > 50 && StatPercFree <= 75) {
+			sms.setColor(new esri.Color([0, 255, 0, 0.5]));
+			//sms.setPath(path);
+			sms.setSize(10);
+		}
+		else {
+			sms.setColor(new esri.Color([0, 0, 255, 0.5]));
+			//sms.setPath(path);
+			sms.setSize(12);
+		}
 		
+		var attr = {"Name":StatName,"EmptySlots":StatEmpty,"FreeBikes":StatFree,"Percentage":StatPercFree};
+		var infoTemplate = new esri.InfoTemplate("Station details","Station Name: ${Name} <br/> Bikes available: ${FreeBikes} <br/>Empty slots:${EmptySlots}");
+		var graphic = new esri.Graphic(pt,sms,attr,infoTemplate);
+		//BikeStationsLayer.add(graphic);
+		map.graphics.add(graphic);
 		
     }
-
-
-		// var data = dojo.map(arr, function(p) {
-            // return { "x": p.network.stations.longitude, "y": p.network.stations.latitude, "attributes": {} }
-          // });
-
-
-
-		// var photoInfo = {};
-		// var wgs = new esri.SpatialReference({
-			// "wkid": 4326
-		// });
-		// photoInfo.data = new dojo._base.arrayUtils.esri.map(arr, function(p) {
-		// var latlng = new  Point(parseFloat(p.longitude), parseFloat(p.latitude), wgs);
-		// var webMercator = webMercatorUtils.geographicToWebMercator(latlng);
-		// var attributes = {
-			// "Caption": p.name,
-			// "Name": p.empty_slots,
-			// "Image": p.free_bikes
-		// };
-		// return {
-			// "x": webMercator.x,
-			// "y": webMercator.y,
-			// "attributes": attributes
-		// };
-		// });
-	
-	 // // popupTemplate to work with attributes specific to this dataset
-            // var popupTemplate = new esri.dijit.PopupTemplate({
-              // "title": "",
-              // "fieldInfos": [{
-                // "fieldName": "free_bikes",
-                // visible: true
-              // }, {
-                // "fieldName": "name",
-                // "label": "By",
-                // visible: true
-              // }, {
-                // "fieldName": "empty_slots",
-                // "label": "On Instagram",
-                // visible: true
-              // }]
-            // });
-			
-			// // cluster layer that uses OpenLayers style clustering
-            // clusterLayer = new extras.ClusterLayer({
-              // "data": photoInfo.data,
-              // "distance": 100,
-              // "id": "clusters",
-              // "labelColor": "#fff",
-              // "labelOffset": 10,
-              // "resolution": map.extent.getWidth() / map.width,
-              // "singleColor": "#888",
-              // "singleTemplate": popupTemplate
-            // });
-            // var defaultSym = new esri.symbols.SimpleMarkerSymbol().setSize(4);
-            // var renderer = new esri.renderers.ClassBreaksRenderer(defaultSym, "clusterCount");
-
-            // var picBaseUrl = "http://static.arcgis.com/images/Symbols/Shapes/";
-            // var blue = new esri.symbols.PictureMarkerSymbol(picBaseUrl + "BluePin1LargeB.png", 32, 32).setOffset(0, 15);
-            // var green = new esri.symbols.PictureMarkerSymbol(picBaseUrl + "GreenPin1LargeB.png", 64, 64).setOffset(0, 15);
-            // var red = new esri.symbols.PictureMarkerSymbol(picBaseUrl + "RedPin1LargeB.png", 72, 72).setOffset(0, 15);
-            // renderer.addBreak(0, 2, blue);
-            // renderer.addBreak(2, 200, green);
-            // renderer.addBreak(200, 1001, red);
-
-            // clusterLayer.setRenderer(renderer);
-            // map.addLayer(clusterLayer);
-
-
-    // //document.getElementById("id01").innerHTML = out;
-	// window.alert(out);
+		//map.graphics.add(BikeStationsLayer);	
 }
 
 function onMapLoaded() {
@@ -468,7 +409,7 @@ function locateAddress(evt, addr) {
     var address = addr.trim();
 
     if (!geocoder) {
-        geocoder = new esri.tasks.Locator("//geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer");
+        geocoder = new esri.tasks.Locator("http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer");
         geocoder.outSpatialReference = map.spatialReference;
     }
 
