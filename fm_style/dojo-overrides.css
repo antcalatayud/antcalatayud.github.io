@@ -11,7 +11,7 @@
 }
 
 .esriMobileNavigationBar, .esriMobileInfoView, .esriMobilePopupInfoView, .esriPopupWrapper{
-	z-index: 500;
+	z-index: 999;
 }
 
 .esriScalebarLabel, .esriScalebarFirstNumber, .esriScalebarSecondNumber{ width: auto !important;}
