@@ -334,10 +334,33 @@ function onMapExtentChange() {
 	var scale = Math.round(esri.geometry.getScale(map));
 	if (scale <= 9244649 && scale >= 1155581){
 		map.graphics.clear();
-		document.getElementById("fm_legendDiv").innerHTML = "HeatMap";	
+		
+		var elem = document.createElement("img");
+		elem.src = 'images/BikeLegend.PNG';
+		elem.id = "HeatMapPic";
+		
+		if ($('#HeatMapPic').length > 0) {
+			// exists.
+			//Do nothing
+		}
+		else{
+			document.getElementById("fm_legendDiv").appendChild(elem);			
+		}
+		
+		//document.getElementById("fm_legendDiv").innerHTML = "HeatMap";	
 	}
 	else if (scale < 1155581) {
-		document.getElementById("fm_legendDiv").innerHTML = "Bikes";	
+		var elem = document.createElement("img");
+		elem.src = 'images/BikeLegend.PNG';
+		elem.id = "BikesPic";
+		
+		if ($('#BikesPic').length > 0) {
+			// exists.
+			//Do nothing
+		}
+		else{
+			document.getElementById("fm_legendDiv").appendChild(elem);			
+		}	
 	}
 	else{
 		map.graphics.clear();
