@@ -33,6 +33,7 @@ var map;
 var currentBasemap;
 var geocoder;
 var webmapResponse;
+var BikeStationsLayer;
 
 
 
@@ -167,7 +168,7 @@ function getStations(feature){
 	
 }
 function getStationsBikes(arr) {
-	//var BikeStationsLayer = new esri.layers.GraphicsLayer();
+	BikeStationsLayer = new esri.layers.GraphicsLayer();
 	//BikeStationsLayer.clear();
 	var wgs = new esri.SpatialReference({
 			"wkid": 4326
@@ -177,6 +178,18 @@ function getStationsBikes(arr) {
 	map.graphics.clear();
 	var out = "";
     var i;
+	
+	// var symbol = new esri.symbol.SimpleMarkerSymbol();
+	// symbol.style = esri.symbol.SimpleMarkerSymbol.STYLE_SQUARE;
+	// symbol.setSize(8); symbol.setColor(new dojo.Color([255,255,0,0.5]));
+// //var renderer = new esri.renderer.SimpleRenderer(symbol);
+	// var renderer = new esri.renderer.ClassBreaksRenderer(symbol, "PERCENTAGE");
+// renderer.addBreak(0,4, new esri.symbol.SimpleFillSymbol().setColor(new dojo.Color([255, 0, 0,0.5]))); 
+ // renderer.addBreak(4,10,new esri.symbol.SimpleFillSymbol().setColor(new dojo.Color([255, 255, 0,0.5]))); 
+// renderer.addBreak(10,100,new esri.symbol.SimpleFillSymbol().setColor(new dojo.Color([0,255,0,0.5])));
+
+// var infoTemplate = new esri.InfoTemplate("Station details","Station Name: ${Name} <br/> Bikes available: ${FreeBikes} <br/>Empty slots:${EmptySlots}");
+	
 	
     for(i = 0; i < arr.network.stations.length; i++) {
 		StatName = arr.network.stations[i].name
@@ -212,16 +225,37 @@ function getStationsBikes(arr) {
 			sms.setSize(50);
 		}
 		
-		var attr = {"Name":StatName,"EmptySlots":StatEmpty,"FreeBikes":StatFree,"Percentage":StatPercFree};
+		var attr = {"NAME":StatName,"EMPTY":StatEmpty,"FREE":StatFree,"PERCENTAGE":StatPercFree};
 		var infoTemplate = new esri.InfoTemplate("Station details","Station Name: ${Name} <br/> Bikes available: ${FreeBikes} <br/>Empty slots:${EmptySlots}");
 		var graphic = new esri.Graphic(pt,sms,attr,infoTemplate);
-		//BikeStationsLayer.add(graphic);
+		//var graphic = new esri.Graphic(pt);
 		map.graphics.add(graphic);
 		
+		//BikeStationsLayer.add(graphic);
+		
+		
     }
-		//map.graphics.add(BikeStationsLayer);
-			
+		//BikeStationsLayer.setRenderer(renderer);
+		//map.addLayer(BikeStationsLayer);
+		//applyrendered(BikeStationsLayer);	
 
+}
+
+function applyrendered(Graphics_Attr){
+	// //var attr = Graphics_Attr.graphics.attributes.percentage;
+	// var symbol = new esri.symbol.SimpleMarkerSymbol();
+	// symbol.style = esri.symbol.SimpleMarkerSymbol.STYLE_SQUARE;
+	// symbol.setSize(8); symbol.setColor(new dojo.Color([255,255,0,0.5]));
+	// //var renderer = new esri.renderer.SimpleRenderer(symbol);
+	// var renderer = new esri.renderer.ClassBreaksRenderer(symbol, "PERCENTAGE");
+	// renderer.addBreak(0,4, new esri.symbol.SimpleFillSymbol().setColor(new dojo.Color([255, 0, 0,0.5]))); 
+	// renderer.addBreak(4,10,new esri.symbol.SimpleFillSymbol().setColor(new dojo.Color([255, 255, 0,0.5]))); 
+	// renderer.addBreak(10,100,new esri.symbol.SimpleFillSymbol().setColor(new dojo.Color([0,255,0,0.5])));
+	
+	// BikeStationsLayer.setRenderer(renderer);
+	// //map.graphics.setRenderer(renderer);
+	
+	
 }
 
 function onMapLoaded() {
@@ -306,7 +340,7 @@ function onMapExtentChange() {
 		document.getElementById("fm_legendDiv").innerHTML = "Bikes";	
 	}
 	else{
-		//document.getElementById("fm_legendDiv").innerHTML = "";			
+		map.graphics.clear();
 	}
 	if (scale > 999 && scale <= 999999) {
 		scale = Math.round(scale / 1000) + " <b>K</b>";

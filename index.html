@@ -68,14 +68,14 @@
 				<span class='fm_icon_text fm_show'>Measure</span>
 			</a>
             -->
-			<!--<a href='#' class='fm_details_trigger fm_trigger fm_button fm_float_right' data-panel='fm_description' >
+			<a href='#' class='fm_details_trigger fm_trigger fm_button fm_float_right' data-panel='fm_description' >
 				<span class='fm_icon fm_details_icon'></span>
 				<span class='fm_icon_text'>Details</span>
-			</a> -->
-			<a href='#' class='fm_settings_trigger fm_trigger fm_button fm_float_right' data-panel='fm_settings' >
+			</a>
+			<!-- <a href='#' class='fm_settings_trigger fm_trigger fm_button fm_float_right' data-panel='fm_settings' >
 				<span class='fm_icon fm_settings_icon'></span>
 				<span class='fm_icon_text'>Details</span>
-			</a>
+			</a> -->
 			
 			<!-- <a href='#' class='fm_trigger fm_button fm_float_right' data-panel='fm_print' >
 				<span class='fm_icon fm_print_icon'></span>
@@ -116,7 +116,18 @@
 				<div class='fm_panel_header_content fm_container'>Header</div>
 			</div-->
 			<div class='*fm_panel_container fm_container'>
-				<div class='fm_description fm_panel' >Map Description</div>
+				<div class='fm_description fm_panel' >
+				<p>This website has been develop for the ESRI data viz app challenge. For its development, different ESRI technologies has been used: </p>
+                        <ul>
+                            <li>Some data have been processed and upload to the <a href="https://www.arcgis.com/home/" target="_blank">ArcGIS Online.</a></li>
+							<li>The data is being displayed using the <a href="http://www.esri.com/landing-pages/arcgis-online/smart-mapping?utm_source=esri&amp;utm_medium=homepage_banner&amp;utm_term=smart_mapping&amp;utm_content=03032015&amp;utm_campaign=arcgis_online" target="_blank">smart mapping</a></li>
+                            <li><a href="https://developers.arcgis.com/javascript/" target="_blank">ArcGIS JavaScript API</a> has been used to control and display the data.</li>
+                            <li>The responsive map template is from the <a href="http://maps.esri.com/SP_DEMOS/responsive/https://developers.arcgis.com/javascript/" target="_blank">Esri Applications Prototype Lab.</a></li>
+                            <li>The bike data is called from a free API called<a href="http://www.citybik.es/" target="_blank"> Citybik.es.</a></li>
+							<li>The Citybik API data was into a JSON format, so a <a href="http://blogs.esri.com/esri/arcgis/2014/09/05/data-visualization-with-arcgis-api-for-javascript/" target="_blank">renderer process</a> was applied</li>
+                        </ul>
+                        <p>With these technologies I have been able to tell you a story about how the bike sharing systems are distributed around the world.</p>
+				</div>
 				<div id='fm_legendDiv' class='fm_legend fm_panel' ></div>
 				<div class='fm_tools fm_panel' >Map Tools</div>
 				<!-- <div class='fm_print fm_panel' >Print Options</div> -->
@@ -124,10 +135,7 @@
 					<p>Embed code:</p>
 					<textarea class='fm_embed_code' ></textarea>
 				</div> -->
-				<div class='fm_settings fm_panel' >App Settings
-				
-				
-				</div>
+				<!-- <div class='fm_settings fm_panel' >	</div> -->
 			</div>
 		</div>
 	</div>
