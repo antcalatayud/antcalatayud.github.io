@@ -256,8 +256,8 @@ function applyrendered(Graphics_Attr){
 	// //map.graphics.setRenderer(renderer);
 }
 
-function queryGeolocation(){
-	window.alert("ji");
+function queryGeolocation(pt){
+	window.alert(pt);
 	
 	
 }
