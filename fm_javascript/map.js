@@ -226,7 +226,7 @@ function getStationsBikes(arr) {
 		}
 		
 		var attr = {"NAME":StatName,"EMPTY":StatEmpty,"FREE":StatFree,"PERCENTAGE":StatPercFree};
-		var infoTemplate = new esri.InfoTemplate("Station details","Station Name: ${Name} <br/> Bikes available: ${FreeBikes} <br/>Empty slots:${EmptySlots}");
+		var infoTemplate = new esri.InfoTemplate("Station details","Station Name: ${NAME} <br/> Bikes available: ${FREE} <br/>Empty slots:${EMPTY}");
 		var graphic = new esri.Graphic(pt,sms,attr,infoTemplate);
 		//var graphic = new esri.Graphic(pt);
 		map.graphics.add(graphic);
