@@ -254,6 +254,10 @@ function applyrendered(Graphics_Attr){
 	
 	// BikeStationsLayer.setRenderer(renderer);
 	// //map.graphics.setRenderer(renderer);
+}
+
+function queryGeolocation(){
+	window.alert("ji");
 	
 	
 }
@@ -308,9 +312,6 @@ function onMapLoaded() {
 	if(webmapResponse && webmapResponse.itemInfo && webmapResponse.itemInfo.item){
 		res.populateMapInfo(webmapResponse.itemInfo.item);
 	}
-	
-	
-
 	//keep map coords updated
 	dojo.connect(map, 'onMouseMove', res.showCoords);
 	res.showCoords(map.extent.getCenter());
@@ -323,11 +324,6 @@ function onMapLoaded() {
 	else switchToDesktop();
 
 	console.log('map loaded exit');
-	
-	
-	
-
-	
 }
 
 function onMapExtentChange() {

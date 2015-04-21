@@ -320,6 +320,7 @@ function responsive (){
 					var graphic = new esri.Graphic(pt, new esri.symbol.PictureMarkerSymbol('images/i_target.png', 38, 38));
 					//animateGraphicSymbol(graphic);
 					fm.animateMapSymbol(graphic);
+					queryGeolocation();
 				}
 				
 			}, function(error){
