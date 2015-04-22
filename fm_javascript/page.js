@@ -305,12 +305,15 @@ function responsive (){
 	}
 	
 	this.findMe = function(){
+		var wgs = new esri.SpatialReference({
+			"wkid": 4326
+		});
 		if (navigator.geolocation) {
 			navigator.geolocation.getCurrentPosition(function(location){
 				if (map && location && location.coords) {
 					//console.log(location.coords);
 					//console.log(location.accuracy);
-					var pt = esri.geometry.geographicToWebMercator(new esri.geometry.Point(location.coords.longitude, location.coords.latitude));
+					var pt = new esri.geometry.Point(location.coords.longitude, location.coords.latitude,wgs);
 					if (location.accuracy < 10000) {
 						map.centerAndZoom(pt, 16);
 					}
