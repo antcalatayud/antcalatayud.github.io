@@ -36,6 +36,7 @@ var geocoder;
 var webmapResponse;
 var BikeStationsLayer;
 var BikeServices;
+var GeolocationOn = false;
 
 
 var basemaps = {"currentVersion":10.01,"folders":["Canvas","Demographics","Elevation","Reference","Specialty"],"services":[
@@ -122,7 +123,7 @@ function init(){
 			 outFields: ["*"],
 			 infoTemplate: CountryTemplate
 		});
-		var BikeServices = new esri.layers.FeatureLayer("http://services5.arcgis.com/0EYL4OTKhMA0OgEx/arcgis/rest/services/Bikes/FeatureServer/0", {
+		BikeServices = new esri.layers.FeatureLayer("http://services5.arcgis.com/0EYL4OTKhMA0OgEx/arcgis/rest/services/Bikes/FeatureServer/0", {
 			 mode: esri.layers.FeatureLayer.MODE_ONDEMAND,
 			 outFields: ["*"],
 			 infoTemplate: BikesTemplate
@@ -169,17 +170,20 @@ function getStations(feature){
 	
 }
 function getStationsBikes(arr) {
-	BikeStationsLayer = new esri.layers.GraphicsLayer();
+	//BikeStationsLayer = new esri.layers.GraphicsLayer();
 	//BikeStationsLayer.clear();
 	var wgs = new esri.SpatialReference({
 			"wkid": 4326
 		});
-	var CityPt = new esri.geometry.Point(arr.network.location.longitude,arr.network.location.latitude,wgs)
-	map.centerAndZoom(CityPt, 15);
+		
+		var CityPt = new esri.geometry.Point(arr.network.location.longitude,arr.network.location.latitude,wgs)
+		map.centerAndZoom(CityPt, 15);
+		
+	}	
 	map.graphics.clear();
 	var out = "";
     var i;
-	
+	GeolocationOn = false;
 	// var symbol = new esri.symbol.SimpleMarkerSymbol();
 	// symbol.style = esri.symbol.SimpleMarkerSymbol.STYLE_SQUARE;
 	// symbol.setSize(8); symbol.setColor(new dojo.Color([255,255,0,0.5]));
@@ -259,6 +263,7 @@ function applyrendered(Graphics_Attr){
 
 function queryGeolocation(pt){
 	//window.alert(pt);
+	GeolocationOn = true;
 var circleSymb = new esri.symbol.SimpleFillSymbol();
 	//circleSymb.setStyle(NULL);
 	//circleSymb.setOutline(new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_SOLID, new Color([255,0,0]), 2));
