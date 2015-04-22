@@ -175,6 +175,7 @@ function getStationsBikes(arr) {
 	var wgs = new esri.SpatialReference({
 			"wkid": 4326
 		});
+	if (GeolocationOn == false){
 		
 		var CityPt = new esri.geometry.Point(arr.network.location.longitude,arr.network.location.latitude,wgs)
 		map.centerAndZoom(CityPt, 15);
