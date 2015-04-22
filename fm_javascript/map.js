@@ -258,10 +258,10 @@ function applyrendered(Graphics_Attr){
 }
 
 function queryGeolocation(pt){
-	window.alert(pt);
+	//window.alert(pt);
 var circleSymb = new esri.symbol.SimpleFillSymbol();
-	circleSymb.setColor(new esri.Color([0, 255, 0, 0.5]));
-	circleSymb.setOutline(new SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_SOLID, new Color([255,0,0]), 2));
+	//circleSymb.setStyle(NULL);
+	//circleSymb.setOutline(new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_SOLID, new Color([255,0,0]), 2));
 	 var circle = new esri.geometry.Circle({
             center: pt,
             geodesic: true,
