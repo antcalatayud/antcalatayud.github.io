@@ -265,19 +265,19 @@ function applyrendered(Graphics_Attr){
 function queryGeolocation(pt){
 	//window.alert(pt);
 	GeolocationOn = true;
-var circleSymb = new esri.symbol.SimpleFillSymbol();
+	var circleSymb = new esri.symbol.SimpleFillSymbol();
 	//circleSymb.setStyle(NULL);
 	//circleSymb.setOutline(new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_SOLID, new Color([255,0,0]), 2));
 	 var circle = new esri.geometry.Circle({
             center: pt,
             geodesic: true,
-            radius: 2,
+            radius: 10,
             radiusUnit: "esriKilometers"
           });
 	
 	var BuffGraphic = new esri.Graphic(circle, circleSymb);
 	animateGraphicSymbolLocation(BuffGraphic);
-    map.graphics.add(BuffGraphic);
+    //map.graphics.add(BuffGraphic);
 	
 	var query = new esri.tasks.Query();
     query.geometry = circle.getExtent();	
@@ -290,7 +290,8 @@ function selectInBuffer(response){
     var inBuffer = [];
 	
 	if (features.length < 1){
-		window.alert("Sorry! No bikes services found within 2 kilometers radius");
+		GeolocationOn = false;
+		window.alert("Sorry! No bikes services found within 2 kilometres radius");
 	}
 	else {
 		var i =0;

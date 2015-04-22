@@ -308,6 +308,9 @@ function responsive (){
 		var wgs = new esri.SpatialReference({
 			"wkid": 4326
 		});
+		// var pt = new esri.geometry.Point(-0.1198244,51.51121389999999, wgs);
+		// map.centerAndZoom(pt, 16);
+		// queryGeolocation(pt);
 		if (navigator.geolocation) {
 			navigator.geolocation.getCurrentPosition(function(location){
 				if (map && location && location.coords) {
