@@ -26,7 +26,8 @@ dojo.require("esri.SpatialReference");
 dojo.require("esri.symbols.SimpleMarkerSymbol");
 dojo.require("esri.renderers.ClassBreaksRenderer");
 dojo.require("esri.layers.GraphicsLayer");
-
+dojo.require("esri.geometry.Circle");
+dojo.require("esri.tasks.query");
 
 
 var map;
@@ -34,7 +35,7 @@ var currentBasemap;
 var geocoder;
 var webmapResponse;
 var BikeStationsLayer;
-
+var BikeServices;
 
 
 var basemaps = {"currentVersion":10.01,"folders":["Canvas","Demographics","Elevation","Reference","Specialty"],"services":[
@@ -174,7 +175,7 @@ function getStationsBikes(arr) {
 			"wkid": 4326
 		});
 	var CityPt = new esri.geometry.Point(arr.network.location.longitude,arr.network.location.latitude,wgs)
-	map.centerAndZoom(CityPt, 12);
+	map.centerAndZoom(CityPt, 15);
 	map.graphics.clear();
 	var out = "";
     var i;
@@ -258,8 +259,73 @@ function applyrendered(Graphics_Attr){
 
 function queryGeolocation(pt){
 	window.alert(pt);
+var circleSymb = new esri.symbol.SimpleFillSymbol();
+	circleSymb.setColor(new esri.Color([0, 255, 0, 0.5]));
+	circleSymb.setOutline(new SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_SOLID, new Color([255,0,0]), 2));
+	 var circle = new esri.geometry.Circle({
+            center: pt,
+            geodesic: true,
+            radius: 2,
+            radiusUnit: "esriKilometers"
+          });
 	
+	var BuffGraphic = new esri.Graphic(circle, circleSymb);
+	animateGraphicSymbolLocation(BuffGraphic);
+    map.graphics.add(BuffGraphic);
 	
+	var query = new esri.tasks.Query();
+    query.geometry = circle.getExtent();	
+	BikeServices.queryFeatures(query, selectInBuffer);
+}
+
+function selectInBuffer(response){
+	var feature;
+    var features = response.features;
+    var inBuffer = [];
+	
+	if (features.length < 1){
+		window.alert("Sorry! No bikes services found within 2 kilometers radius");
+	}
+	else {
+		var i =0;
+		feature = features[i];
+		var ServName = feature.attributes.name;
+		JsonRef = feature.attributes.href;
+		if (confirm( ServName + " service found it. Would you like to retrieve its bike stations") == true) {
+				getStations();			
+		}
+	}
+ }
+ function animateGraphicSymbolLocation(g) {
+    var opacity = 1.0;
+    var color = g.symbol.color;
+    var type = g.geometry.type;
+    var symbol = g.symbol;
+    //console.log(type);
+    if (type == "extent") {
+        symbol.outline.color.a = opacity;
+        symbol.color.a = 0.0;
+    } else {
+        symbol.color.a = opacity;
+    }
+    map.graphics.add(g);
+    //console.log(g.symbol.color);
+
+    var interval = setInterval(function () {
+        if (type != "extent") {
+            symbol.setColor(new dojo.Color([color.r, color.g, color.b, opacity]));
+        }
+        if (symbol.outline) {
+            var ocolor = symbol.outline.color;
+            symbol.outline.setColor(new dojo.Color([ocolor.r, ocolor.g, ocolor.b, opacity]));
+        }
+        g.setSymbol(symbol);
+        if (opacity < 0.01) {
+            clearInterval(interval);
+            map.graphics.remove(g);
+        }
+        opacity -= 0.01;
+    }, 20);
 }
 
 function onMapLoaded() {
