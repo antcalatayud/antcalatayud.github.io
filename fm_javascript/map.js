@@ -212,22 +212,22 @@ function getStationsBikes(arr) {
 		sms.setPath(path);
 		
 		if (StatPercFree == 0) {
-			sms.setColor(new esri.Color([255, 0, 0, 0.5]));		
+			sms.setColor(new esri.Color([255, 0, 0]));		
 			sms.setSize(30);
 		}
 		else if (StatPercFree > 0 && StatPercFree <= 25) {
-			sms.setColor(new esri.Color([255, 137, 0, 0.5]));
+			sms.setColor(new esri.Color([255, 137, 0]));
 			sms.setSize(35);
 		}
 		else if (StatPercFree > 25 && StatPercFree <= 50) {
-			sms.setColor(new esri.Color([255, 137, 0, 0.5]));
+			sms.setColor(new esri.Color([0, 0, 0]));
 			sms.setSize(40);
 		} else if (StatPercFree > 50 && StatPercFree <= 75) {
-			sms.setColor(new esri.Color([0, 255, 0, 0.5]));
+			sms.setColor(new esri.Color([0, 255, 0]));
 			sms.setSize(45);
 		}
 		else {
-			sms.setColor(new esri.Color([0, 0, 255, 0.5]));	
+			sms.setColor(new esri.Color([0, 0, 255]));	
 			sms.setSize(50);
 		}
 		
@@ -265,18 +265,18 @@ function applyrendered(Graphics_Attr){
 function queryGeolocation(pt){
 	//window.alert(pt);
 	GeolocationOn = true;
-	var circleSymb = new esri.symbol.SimpleFillSymbol();
+	var circleSymb = new esri.symbol.SimpleFillSymbol(esri.symbol.SimpleFillSymbol.STYLE_SOLID, new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_SOLID, new dojo.Color([255, 0, 0]), 3), new dojo.Color(0, 0, 0, 0));
 	//circleSymb.setStyle(NULL);
 	//circleSymb.setOutline(new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_SOLID, new Color([255,0,0]), 2));
 	 var circle = new esri.geometry.Circle({
             center: pt,
             geodesic: true,
-            radius: 10,
+            radius: 0.5,
             radiusUnit: "esriKilometers"
           });
 	
 	var BuffGraphic = new esri.Graphic(circle, circleSymb);
-	animateGraphicSymbolLocation(BuffGraphic);
+	//animateGraphicSymbolLocation(BuffGraphic);
     //map.graphics.add(BuffGraphic);
 	
 	var query = new esri.tasks.Query();
@@ -405,7 +405,7 @@ function onMapExtentChange() {
 		map.graphics.clear();
 		
 		var elem = document.createElement("img");
-		elem.src = 'images/BikeLegend.PNG';
+		elem.src = 'images/HeatLegend.PNG';
 		elem.id = "HeatMapPic";
 		
 		if ($('#HeatMapPic').length > 0) {
