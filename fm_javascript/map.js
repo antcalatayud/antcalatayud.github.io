@@ -271,7 +271,7 @@ function queryGeolocation(pt){
 	 var circle = new esri.geometry.Circle({
             center: pt,
             geodesic: true,
-            radius: 0.5,
+            radius: 2,
             radiusUnit: "esriKilometers"
           });
 	
