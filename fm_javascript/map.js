@@ -271,7 +271,7 @@ function queryGeolocation(pt){
 	 var circle = new esri.geometry.Circle({
             center: pt,
             geodesic: true,
-            radius: 2,
+            radius: 15,
             radiusUnit: "esriKilometers"
           });
 	
@@ -291,14 +291,14 @@ function selectInBuffer(response){
 	
 	if (features.length < 1){
 		GeolocationOn = false;
-		window.alert("Sorry! No bikes services found within 2 kilometres radius");
+		window.alert("Sorry! No bikes services have been found within a 15 kilometres radius of your location. Please zoom out to find your nearest service");
 	}
 	else {
 		var i =0;
 		feature = features[i];
 		var ServName = feature.attributes.name;
 		JsonRef = feature.attributes.href;
-		if (confirm( ServName + " service found it. Would you like to retrieve its bike stations") == true) {
+		if (confirm( ServName + " service found. Would you like to retrieve its bike stations?") == true) {
 				getStations();			
 		}
 	}
