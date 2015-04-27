@@ -401,7 +401,7 @@ function onMapLoaded() {
 
 function onMapExtentChange() {
 	var scale = Math.round(esri.geometry.getScale(map));
-	if (scale <= 9244649 && scale >= 1155581){
+	if (scale <= 9244649 && scale >= 72000){
 		map.graphics.clear();
 		
 		var elem = document.createElement("img");
@@ -418,7 +418,7 @@ function onMapExtentChange() {
 		
 		//document.getElementById("fm_legendDiv").innerHTML = "HeatMap";	
 	}
-	else if (scale < 1155581) {
+	else if (scale < 72000) {
 		var elem = document.createElement("img");
 		elem.src = 'images/BikeLegend.PNG';
 		elem.id = "BikesPic";
