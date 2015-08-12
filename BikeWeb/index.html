@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<!--The viewport meta tag is used to improve the presentation and behavior of the samples
+	on iOS devices-->
+	<!--meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no"/ -->
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+
+	<title>Cycling around the world</title>
+	<link rel="shortcut icon" href="fm_style/favicon.ico" /> 
+	<link rel="icon" type="image/png" href="fm_style/fm_icons/globe2.png" />
+
+	<link rel="stylesheet" type="text/css" href="http://serverapi.arcgisonline.com/jsapi/arcgis/3.0/js/esri/dijit/css/Popup.css" />
+  <link rel="stylesheet" type="text/css" href="http://serverapi.arcgisonline.com/jsapi/arcgis/3.0/js/esri/dijit/css/PopupMobile.css" />
+
+ 	<link rel="stylesheet" href="http://js.arcgis.com/3.13/esri/css/esri.css" />
+
+	<link rel='stylesheet' type='text/css' href='fm_style/page.css' />
+  <link rel='stylesheet' type='text/css' href='fm_style/page_style3.css' />
+	
+	<script type="text/javascript" src='fm_javascript/page-header.js'></script>
+	<!--[if lte IE 8]>
+		<link rel='stylesheet' type='text/css' href='fm_style/ie.css' />
+		<script type='text/javascript' src='http://html5shiv.googlecode.com/svn/trunk/html5.js'></script>
+		<script type='text/javascript' src='fm_javascript/lib/respond.min.js'></script>
+	<![endif]-->
+
+	<link rel="apple-touch-icon" href="fm_style/fm_icons/globe2.png" />
+	<link rel="apple-touch-icon" sizes="72x72" href="fm_style/fm_icons/globe2-72.png" />
+	<link rel="apple-touch-icon" sizes="114x114" href="fm_style/fm_icons/globe2-114.png" />
+	
+	<link rel='stylesheet' type='text/css' href='fm_style/dojo-overrides.css' />
+</head>
+
+<body >
+	<!-- absolute elements (overlays) -->
+	<div class='fm_basemap_list fm_overlay'>
+		<div class='fm_close'></div>
+		<div id='basemapList' class='fm_handle'></div>
+	</div>
+	<!-- <div class='fm_measurement fm_overlay'>
+		<div class='fm_close'></div>
+		<div class='fm_handle' style='height: 100%;'><div id='measurementDiv'></div></div>
+	</div> -->
+	<div class='fm_search fm_overlay' >
+		<div class='fm_close fm_no_margin'></div>
+		<div class='fm_location_bar' class='fm_handle'>
+			<input type='text' class='fm_location_input' placeholder='Find location...' />
+			<span class='fm_location_button fm_icon fm_search_icon' ></span>
+		</div>
+	</div>
+
+	<header>
+		<div class='fm_title_bar'>Cycling around the world</div>
+        <div class='fm_title_bar fm_subtitle'>Check all the borrow bikes systems available around the world</div>
+	</header>
+	<<nav>
+		<div class='fm_nav'>
+        	<!-- float right elements are displayed in reverse order -->
+			
+            <!--
+			<a href='#' class='fm_measure_trigger fm_button fm_hide'>
+				<span class='fm_icon fm_measure_icon'></span>
+				<span class='fm_icon_text fm_show'>Measure</span>
+			</a>
+            -->
+			<a href='#' class='fm_details_trigger fm_trigger fm_button fm_float_right' data-panel='fm_description' >
+				<span class='fm_icon fm_details_icon'></span>
+				<span class='fm_icon_text'>Details</span>
+			</a>
+			<!-- <a href='#' class='fm_settings_trigger fm_trigger fm_button fm_float_right' data-panel='fm_settings' >
+				<span class='fm_icon fm_settings_icon'></span>
+				<span class='fm_icon_text'>Details</span>
+			</a> -->
+			
+			<!-- <a href='#' class='fm_trigger fm_button fm_float_right' data-panel='fm_print' >
+				<span class='fm_icon fm_print_icon'></span>
+				<span class='fm_icon_text'>Print</span> 
+			</a> -->
+            <a href='#' class='fm_legend_trigger fm_trigger fm_button fm_float_right' data-panel='fm_legend' >
+				<span class='fm_icon fm_legend_icon'></span>
+				<span class='fm_icon_text'>Legend</span>
+			</a>
+			<!-- <a href='#' class='fm_share_trigger fm_trigger fm_button fm_float_right' data-panel='fm_share' >
+				<span class='fm_icon fm_share_icon'></span>
+				<span class='fm_icon_text'>Share</span>
+			</a> -->
+            <a href='#' class='fm_search_trigger fm_button fm_float_right'>
+				<span class='fm_icon fm_search_icon'></span>
+				<span class='fm_icon_text fm_show'></span>
+			</a>
+            <a href='#' class='fm_basemap_trigger fm_button fm_float_right'>
+				<span class='fm_icon fm_basemap_icon'></span>
+				<span class='fm_icon_text fm_show'></span>
+			</a>
+		</div>
+	</nav>
+
+
+	<div class='fm_container_main'>
+		<!--div class='fm_left_content collapse'>
+			<div class='fm_close fm_hide'><img src='images/close.png' class='fm_close_icon' /></div>
+			<div class='fm_container'>sample description</div>
+		</div-->
+		<div class='fm_center_content fm_right'>
+			<img src='fm_style/fm_icons/crosshairs-gray.png' class='fm_find_me' />
+			<div id='map' class='fm_map tundra'></div>
+		</div>
+		<div class='fm_right_content'>
+			<div class='fm_close fm_hide'></div>
+			<!--div class='fm_panel_header'>
+				<div class='fm_panel_header_content fm_container'>Header</div>
+			</div-->
+			<div class='*fm_panel_container fm_container'>
+				<div class='fm_description fm_panel' >
+				<p>This website has been develop for the ESRI data viz app challenge. For its development, different ESRI technologies has been used: </p>
+                        <ul>
+                            <li>Some data have been processed and upload to the <a href="https://www.arcgis.com/home/" target="_blank">ArcGIS Online.</a></li>
+							<li>The data is being displayed using the <a href="http://www.esri.com/landing-pages/arcgis-online/smart-mapping?utm_source=esri&amp;utm_medium=homepage_banner&amp;utm_term=smart_mapping&amp;utm_content=03032015&amp;utm_campaign=arcgis_online" target="_blank">smart mapping</a></li>
+                            <li><a href="https://developers.arcgis.com/javascript/" target="_blank">ArcGIS JavaScript API</a> has been used to control and display the data.</li>
+                            <li>The responsive map template is from the <a href="http://maps.esri.com/SP_DEMOS/responsive/https://developers.arcgis.com/javascript/" target="_blank">Esri Applications Prototype Lab.</a></li>
+                            <li>The bike data is called from a free API called<a href="http://www.citybik.es/" target="_blank"> Citybik.es.</a></li>
+							<li>The Citybik API data was into a JSON format, so a <a href="http://blogs.esri.com/esri/arcgis/2014/09/05/data-visualization-with-arcgis-api-for-javascript/" target="_blank">renderer process</a> was applied</li>
+                        </ul>
+                        <p>With these technologies I have been able to tell you a story about how the bike sharing systems are distributed around the world.</p>
+				</div>
+				<div id='fm_legendDiv' class='fm_legend fm_panel' ></div>
+				<div class='fm_tools fm_panel' >Map Tools</div>
+				<!-- <div class='fm_print fm_panel' >Print Options</div> -->
+				<!-- <div class='fm_share fm_panel' >
+					<p>Embed code:</p>
+					<textarea class='fm_embed_code' ></textarea>
+				</div> -->
+				<!-- <div class='fm_settings fm_panel' >	</div> -->
+			</div>
+		</div>
+	</div>
+
+	<footer>
+		<div class='fm_map_info'>
+			<span class='fm_coordsinfo' style="padding: 0 5px;"></span>|
+			<span class='fm_scaleinfo' style="padding: 0 5px;"></span>
+			|&nbsp;
+			<span class='fm_zoomlevelinfo' style="padding: 0 5px;"></span>
+		</div>
+	</footer>
+
+	<script type='text/javascript' src='fm_javascript/lib/jRespond.min.js'></script>
+	<script type='text/javascript' src='fm_javascript/lib/jquery-1.9.0.min.js'></script>
+	<script type='text/javascript' src='fm_javascript/lib/jquery-ui-1.8.21.custom.min.js'></script>
+	
+	<script>
+      var djConfig = { 
+		parseOnLoad: true
+	}
+    </script>
+    <script src="http://js.arcgis.com/3.13/"></script>
+	<script type="text/javascript" src='fm_javascript/map.js'></script>
+	<script type='text/javascript' src='fm_javascript/page.js'></script>
+</body>
+</html>
