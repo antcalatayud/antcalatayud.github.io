@@ -165,7 +165,7 @@ var layer, legend;
 				
 					//Build Query
 					if (document.getElementById('LungCheckBox').checked) {						
-						queryTextString = "(Lung_Measu BETWEEN '" + lungValueMax + "' AND '" + lungValueMin + "')"; 
+						queryTextString = "(Lung_Measu BETWEEN '" + lungValueMin + "' AND '" + lungValueMax + "')"; 
 					} 					
 					if (document.getElementById('ColonCheckBox').checked) {						
 						if (queryTextString == "")
