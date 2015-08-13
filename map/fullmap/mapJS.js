@@ -158,7 +158,7 @@ var layer, legend;
 				var airValueMin = $("#AirSlider").slider("values")[0];
 				
 				var waterValueMax =  $("#WaterSlider").slider("values")[1];
-				var waterValueMin = $("#WaterSlider").slider("values")[0º];
+				var waterValueMin = $("#WaterSlider").slider("values")[0];
 				
 				var landValueMax =  $("#LandSlider").slider("values")[1];
 				var landValueMin = $("#LandSlider").slider("values")[0];
