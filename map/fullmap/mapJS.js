@@ -98,7 +98,7 @@ var layer, legend;
                 var fields = {
                     "Lung_Measu": "Lung Cancer Deaths (per 100,000 people per Sq. Mi.)",
                     "Colon_Meas": "Colon Cancer Deaths (per 100,000 people per Sq. Mi.)",
-                    "Infant_Mea": "Infant Mortality Rate ( Deaths per 1,000)"
+                    "Infant_Mea": "Infant Mortality Rate (Deaths per 1,000)"
                 };
                 var outFields = ["Lung_Measu", "Colon_Meas", "Infant_Mea"];
 				 var outFieldsQ = ["County_NAM","Lung_Measu", "Colon_Meas", "Infant_Mea"];
@@ -376,15 +376,31 @@ var layer, legend;
                         return;
                     }
 
-                    var querBu = document.getElementById('QueryButton');
-                    querBu.onclick = showQuery;
-                    function showQuery() {
-                        if (document.getElementById("queryArea").style.display == "block")
-                            document.getElementById("queryArea").style.display = "none";
-                        else
-                            document.getElementById("queryArea").style.display = "block";
-                        return;
-                    }
+                    // var querBu = document.getElementById('QueryButton');
+                    // querBu.onclick = showQuery;
+                    // function showQuery() {
+                        // if (document.getElementById("queryArea").style.display == "block")
+                            // document.getElementById("queryArea").style.display = "none";
+                        // else
+                            // document.getElementById("queryArea").style.display = "block";
+                        // return;
+                    // }
+					
+					$( "#queryArea" ).dialog({
+						  autoOpen: false,
+						  show: {
+							effect: "blind",
+							duration: 1000
+						  },
+						  hide: {
+							effect: "explode",
+							duration: 1000
+						  }
+						});
+					 
+						$( "#QueryButton" ).click(function() {
+						  $( "#queryArea" ).dialog( "open" );
+						});
 					
 					createSlider();
 					
