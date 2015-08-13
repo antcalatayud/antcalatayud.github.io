@@ -146,8 +146,8 @@ var layer, legend;
 				function execute () {
 					map.graphics.clear();
 				var queryTextString = ""
-				var lungValueMax =  $("#samountLung").slider("values")[0];
-				var lungValueMin = $("#samountLung").slider("values")[1];
+				var lungValueMax =  $("#amountLung").slider("values")[0];
+				var lungValueMin = $("#amountLung").slider("values")[1];
 				var ColonValue = dom.byId("amountColon").value;
 				var InfantValue = dom.byId("amountColon").value;
 				var AirValue = dom.byId("amountColon").value;
@@ -391,21 +391,20 @@ var layer, legend;
 						});
 						$( "#ColonSlider" ).slider({
 							  orientation: "vertical",
-							  range: "min",
+							  range: true,
 							  max: 46,
-							  value: 0,
+							  values: [5,30],
 							  slide: function( event, ui ) {
-								$( "#amountColon" ).val( ui.value );} //,
-							  //change: queryLayer
+								$( "#amountColon" ).val( ui.values[ 0 ] + " - " + ui.values[ 1 ] );} 
+							  
 						});
 						$( "#InfantSlider" ).slider({
 							  orientation: "vertical",
-							  range: "min",
+							  range: true,
 							  max: 24,
-							  value: 0,
+							  values: [5,20],
 							  slide: function( event, ui ) {
-								$( "#amountInfant" ).val( ui.value );} //,
-							  //change: queryLayer
+								$( "#amountInfant" ).val( ui.values[ 0 ] + " - " + ui.values[ 1 ] );} 
 						});	
 						$( "#AirSlider" ).slider({
 							  orientation: "vertical",
