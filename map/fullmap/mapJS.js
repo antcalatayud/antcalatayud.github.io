@@ -148,22 +148,32 @@ var layer, legend;
 				var queryTextString = ""
 				var lungValueMax =  $("#LungSlider").slider("values")[0];
 				var lungValueMin = $("#LungSlider").slider("values")[1];
-				var ColonValue = dom.byId("amountColon").value;
-				var InfantValue = dom.byId("amountColon").value;
-				var AirValue = dom.byId("amountColon").value;
-				var WaterValue = dom.byId("amountWater").value;
-				var LandValue = dom.byId("amountLand").value;
+				var colonValueMax =  $("#ColonSlider").slider("values")[0];
+				var colonValueMin = $("#ColonSlider").slider("values")[1];
+				
+				var infantValueMax =  $("#InfantSlider").slider("values")[0];
+				var infantValueMin = $("#InfantSlider").slider("values")[1];
+				
+				var airValueMax =  $("#AirSlider").slider("values")[0];
+				var airValueMin = $("#AirSlider").slider("values")[1];
+				
+				var waterValueMax =  $("#WaterSlider").slider("values")[0];
+				var waterValueMin = $("#WaterSlider").slider("values")[1];
+				
+				var landValueMax =  $("#LandSlider").slider("values")[0];
+				var landValueMin = $("#LandSlider").slider("values")[1];
+				
 					//Build Query
 					if (document.getElementById('LungCheckBox').checked) {						
-						queryTextString = "Lung_Measu > '" + lungValue + "'";
+						queryTextString = "Lung_Measu BETWEEN '" + lungValueMax + "' AND '" + lungValueMin + "'"; 
 					} 					
 					if (document.getElementById('ColonCheckBox').checked) {						
 						if (queryTextString == "")
 						{
-							queryTextString = "Colon_Meas >= '" + ColonValue + "'";
+							queryTextString = "(Colon_Meas >= '" + ColonValue + "'";
 						}
 						else{
-							queryTextString = queryTextString + "AND Colon_Meas >= '" + ColonValue + "'";
+							queryTextString = queryTextString + " AND Colon_Meas >= '" + ColonValue + "'";
 						}
 					}					
 					if (document.getElementById('InfantCheckBox').checked) {						
@@ -408,42 +418,42 @@ var layer, legend;
 						});	
 						$( "#AirSlider" ).slider({
 							  orientation: "vertical",
-							  range: "min",
+							   range: true,
 							  max: 2.79,
 							  step: 0.1,
-							  value: 0,
+							   values: [0.5,2.5],
 							  slide: function( event, ui ) {
-								$( "#amountAir" ).val( ui.value );} //,
+								$( "#amountAir" ).val( ui.values[ 0 ] + " - " + ui.values[ 1 ] );} //,
 							  //change: queryLayer
 						});	
 						$( "#WaterSlider" ).slider({
 							  orientation: "vertical",
-							  range: "min",
+							   range: true,
 							  max: 1.48,
 							   step: 0.1,
-							  value: 0,
+							   values: [0.2,1.4],
 							  slide: function( event, ui ) {
-								$( "#amountWater" ).val( ui.value );} //,
+								$( "#amountWater" ).val( ui.values[ 0 ] + " - " + ui.values[ 1 ] );} //,
 							  //change: queryLayer
 						});	
 						$( "#LandSlider" ).slider({
 							  orientation: "vertical",
-							  range: "min",
+							   range: true,
 							  max: 2.09, 
 							  step: 0.1,
-							  value: 0,
+							  values: [0.2,1.4],
 							  slide: function( event, ui ) {
-								$( "#amountLand" ).val( ui.value );} //,
+								$( "#amountLand" ).val( ui.values[ 0 ] + " - " + ui.values[ 1 ] );} //,
 							  //change: queryLayer
 						});							
 					}
 					
-					$( "#amountLung" ).val( "$" + $( "#amountLung" ).slider( "values", 0 ) + " - " + $( "#amountLung" ).slider( "values", 1 ) );
-					$( "#amountColon" ).val( $( "#slider-vertical" ).slider( "value" ) );
-					$( "#amountInfant" ).val( $( "#slider-vertical" ).slider( "value" ) );
-					$( "#amountAir" ).val( $( "#slider-vertical" ).slider( "value" ) );
-					$( "#amountWater" ).val( $( "#slider-vertical" ).slider( "value" ) );
-					$( "#amountLand" ).val( $( "#slider-vertical" ).slider( "value" ) );
+					$( "#amountLung" ).val( $( "#LungSlider" ).slider( "values", 0 ) + " - " + $( "#LungSlider" ).slider( "values", 1 ) );
+					$( "#amountColon" ).val( $( "#ColonSlider" ).slider( "values", 0 ) + " - " + $( "#ColonSlider" ).slider( "values", 1 ) );
+					$( "#amountInfant" ).val( $( "#InfantSlider" ).slider( "values", 0 ) + " - " + $( "#InfantSlider" ).slider( "values", 1 ) );
+					$( "#amountAir" ).val( $( "#AirSlider" ).slider( "values", 0 ) + " - " + $( "#AirSlider" ).slider( "values", 1 ) );
+					$( "#amountWater" ).val( $( "#WaterSlider" ).slider( "values", 0 ) + " - " + $( "#WaterSlider" ).slider( "values", 1 ) );
+					$( "#amountLand" ).val( $( "#LandSlider" ).slider( "values", 0 ) + " - " + $( "#LandSlider" ).slider( "values", 1 ) );
 					
 				};
 	});
