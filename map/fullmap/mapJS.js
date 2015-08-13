@@ -366,15 +366,30 @@ var layer, legend;
                         return;
                     }
 					
-                    var infBu = document.getElementById('informationButton');
-                    infBu.onclick = showInf;
-                    function showInf() {
-                        if (document.getElementById("InformationArea").style.display == "block")
-                            document.getElementById("InformationArea").style.display = "none";
-                        else
-                            document.getElementById("InformationArea").style.display = "block";
-                        return;
-                    }
+                    // var infBu = document.getElementById('informationButton');
+                    // infBu.onclick = showInf;
+                    // function showInf() {
+                        // if (document.getElementById("InformationArea").style.display == "block")
+                            // document.getElementById("InformationArea").style.display = "none";
+                        // else
+                            // document.getElementById("InformationArea").style.display = "block";
+                        // return;
+                    // }
+					$( "#InformationArea" ).dialog({
+						  autoOpen: false,
+						  show: {
+							effect: "blind",
+							duration: 1000
+						  },
+						  hide: {
+							effect: "explode",
+							duration: 1000
+						  }
+						});
+					 
+						$( "#informationButton" ).click(function() {
+						  $( "#InformationArea" ).dialog( "open" );
+						});
 
                     // var querBu = document.getElementById('QueryButton');
                     // querBu.onclick = showQuery;
