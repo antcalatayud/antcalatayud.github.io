@@ -439,7 +439,7 @@ var layer, legend;
 						});							
 					}
 					
-					$( "#amountLung" )val( $( "#LungSlider" ).slider( "values", 0 ) + " - " + $( "#LungSlider" ).slider( "values", 1 ) );
+					$( "#amountLung" ).val( $( "#amountLung" ).val( ui.values[ 0 ] + " - " + ui.values[ 1 ] ));
 					$( "#amountColon" ).val( $( "#slider-vertical" ).slider( "value" ) );
 					$( "#amountInfant" ).val( $( "#slider-vertical" ).slider( "value" ) );
 					$( "#amountAir" ).val( $( "#slider-vertical" ).slider( "value" ) );
