@@ -387,8 +387,7 @@ var layer, legend;
 							  max: 46,
 							  value: [5,10],
 							  slide: function( event, ui ) {
-								$( "#amountLung" ).val( "$" + ui.values[ 0 ] + " - $" + ui.values[ 1 ] );;} //,
-							  //change: queryLayer
+								$( "#amountLung" ).val( ui.values[ 0 ] + " - " + ui.values[ 1 ] );}
 						});
 						$( "#ColonSlider" ).slider({
 							  orientation: "vertical",
@@ -440,7 +439,7 @@ var layer, legend;
 						});							
 					}
 					
-					$( "#amountLung" )val( "$" + $( "#slider-range" ).slider( "values", 0 ) + " - $" + $( "#slider-range" ).slider( "values", 1 ) );
+					$( "#amountLung" )val( $( "#LungSlider" ).slider( "values", 0 ) + " - " + $( "#LungSlider" ).slider( "values", 1 ) );
 					$( "#amountColon" ).val( $( "#slider-vertical" ).slider( "value" ) );
 					$( "#amountInfant" ).val( $( "#slider-vertical" ).slider( "value" ) );
 					$( "#amountAir" ).val( $( "#slider-vertical" ).slider( "value" ) );
