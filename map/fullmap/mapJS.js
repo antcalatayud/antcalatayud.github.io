@@ -245,8 +245,15 @@ var layer, legend;
 				
 				function updateLayerVisibility()
 				{
+					if (document.getElementById('DiseasesLayersOnOff').checked) {
+						layer.show()
+					}
+					else{
+						layer.hide();
+						
+					}
 					
-					layer.hide()
+					
 				};
 
                 function createRenderer(field) {
@@ -374,28 +381,26 @@ var layer, legend;
                         return;
                     }
 					
-                    var infbu = document.getelementbyid('informationbutton');
-                    infbu.onclick = showinf;
-                    function showinf() {
-                        if (document.getelementbyid("informationarea").style.display == "block")
-                            document.getelementbyid("informationarea").style.display = "none";
+					var infBu = document.getElementById('informationButton');
+                    infBu.onclick = showInf;
+                    function showInf() {					
+                        if (document.getElementById("InformationArea").style.display == "block")
+                            document.getElementById("InformationArea").style.display = "none";
                         else
-                            document.getelementbyid("informationarea").style.display = "block";
+                            document.getElementById("InformationArea").style.display = "block";
                         return;
                     }
 					
-
-                    var querbu = document.getelementbyid('querybutton');
-                    querbu.onclick = showquery;
-                    function showquery() {
-                        if (document.getelementbyid("queryarea").style.display == "block")
-                            document.getelementbyid("queryarea").style.display = "none";
+                    var querBu = document.getElementById('QueryButton');
+                    querBu.onclick = showQue;
+                    function showQue() {					
+                        if (document.getElementById("queryArea").style.display == "block")
+                            document.getElementById("queryArea").style.display = "none";
                         else
-                            document.getelementbyid("queryarea").style.display = "block";
+                            document.getElementById("queryArea").style.display = "block";
                         return;
                     }
-					
-					
+										
 					createSlider();
 					
 					function createSlider(){
