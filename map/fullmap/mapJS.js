@@ -382,11 +382,11 @@ var layer, legend;
 						 // setup lungCa slide
 						 $( "#LungSlider" ).slider({
 							  orientation: "vertical",
-							  range: "min",
+							  range: true,
 							  max: 46,
-							  value: 0,
+							  value: [5,10],
 							  slide: function( event, ui ) {
-								$( "#amountLung" ).val( ui.value );} //,
+								$( "#amountLung" ).val( ui.values[0],ui.values[1] );} //,
 							  //change: queryLayer
 						});
 						$( "#ColonSlider" ).slider({
@@ -439,7 +439,7 @@ var layer, legend;
 						});							
 					}
 					
-					$( "#amountLung" ).val( $( "#slider-vertical" ).slider( "value" ) );
+					$( "#amountLung" ).val( $( "#slider-vertical" ).slider( "values",0) + $( "#slider-vertical" ).slider( "values",1));
 					$( "#amountColon" ).val( $( "#slider-vertical" ).slider( "value" ) );
 					$( "#amountInfant" ).val( $( "#slider-vertical" ).slider( "value" ) );
 					$( "#amountAir" ).val( $( "#slider-vertical" ).slider( "value" ) );
