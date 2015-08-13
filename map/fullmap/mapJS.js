@@ -146,43 +146,43 @@ var layer, legend;
 				function execute () {
 					map.graphics.clear();
 				var queryTextString = ""
-				var lungValueMax =  $("#LungSlider").slider("values")[0];
-				var lungValueMin = $("#LungSlider").slider("values")[1];
-				var colonValueMax =  $("#ColonSlider").slider("values")[0];
-				var colonValueMin = $("#ColonSlider").slider("values")[1];
+				var lungValueMax =  $("#LungSlider").slider("values")[1];
+				var lungValueMin = $("#LungSlider").slider("values")[0];
+				var colonValueMax =  $("#ColonSlider").slider("values")[1];
+				var colonValueMin = $("#ColonSlider").slider("values")[0];
 				
-				var infantValueMax =  $("#InfantSlider").slider("values")[0];
-				var infantValueMin = $("#InfantSlider").slider("values")[1];
+				var infantValueMax =  $("#InfantSlider").slider("values")[1];
+				var infantValueMin = $("#InfantSlider").slider("values")[0];
 				
-				var airValueMax =  $("#AirSlider").slider("values")[0];
-				var airValueMin = $("#AirSlider").slider("values")[1];
+				var airValueMax =  $("#AirSlider").slider("values")[1];
+				var airValueMin = $("#AirSlider").slider("values")[0];
 				
-				var waterValueMax =  $("#WaterSlider").slider("values")[0];
-				var waterValueMin = $("#WaterSlider").slider("values")[1];
+				var waterValueMax =  $("#WaterSlider").slider("values")[1];
+				var waterValueMin = $("#WaterSlider").slider("values")[0º];
 				
-				var landValueMax =  $("#LandSlider").slider("values")[0];
-				var landValueMin = $("#LandSlider").slider("values")[1];
+				var landValueMax =  $("#LandSlider").slider("values")[1];
+				var landValueMin = $("#LandSlider").slider("values")[0];
 				
 					//Build Query
 					if (document.getElementById('LungCheckBox').checked) {						
-						queryTextString = "Lung_Measu BETWEEN '" + lungValueMax + "' AND '" + lungValueMin + "'"; 
+						queryTextString = "(Lung_Measu BETWEEN '" + lungValueMax + "' AND '" + lungValueMin + "')"; 
 					} 					
 					if (document.getElementById('ColonCheckBox').checked) {						
 						if (queryTextString == "")
 						{
-							queryTextString = "(Colon_Meas >= '" + ColonValue + "'";
+							queryTextString = "(Colon_Meas BETWEEN '" + colonValueMax + "' AND '" + colonValueMin + "')";
 						}
 						else{
-							queryTextString = queryTextString + " AND Colon_Meas >= '" + ColonValue + "'";
+							queryTextString = queryTextString + " AND (Colon_Meas BETWEEN '" + colonValueMax + "' AND '" + colonValueMin + "')";
 						}
 					}					
 					if (document.getElementById('InfantCheckBox').checked) {						
 						if (queryTextString == "")
 						{
-							queryTextString = "Infant_Mea >= '" + InfantValue + "'";
+							queryTextString = "(Infant_Mea BETWEEN '" + infantValueMax + "' AND '" + infantValueMin + "')";
 						}
 						else{
-							queryTextString = queryTextString + "AND Infant_Mea >= '" + InfantValue + "'";
+							queryTextString = queryTextString + "AND (Infant_Mea BETWEEN '" + infantValueMax + "' AND '" + infantValueMin + "')";
 						}
 					}
 					
