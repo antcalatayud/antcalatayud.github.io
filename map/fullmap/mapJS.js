@@ -240,6 +240,14 @@ var layer, legend;
                 layer.on("load", function() {
                     createRenderer(fieldName);
                 });
+				
+				on(dom.byId("DiseasesLayersOnOff"), "change", updateLayerVisibility);
+				
+				funtion updateLayerVisibilit()
+				{
+					
+					layer.visible = false;
+				}
 
                 function createRenderer(field) {
                     //smart mapping functionality begins
@@ -366,60 +374,27 @@ var layer, legend;
                         return;
                     }
 					
-                    // var infBu = document.getElementById('informationButton');
-                    // infBu.onclick = showInf;
-                    // function showInf() {
-                        // if (document.getElementById("InformationArea").style.display == "block")
-                            // document.getElementById("InformationArea").style.display = "none";
-                        // else
-                            // document.getElementById("InformationArea").style.display = "block";
-                        // return;
-                    // }
-					$( "#InformationArea" ).dialog({
-						  autoOpen: false,
-						  autoResize: true,
-						  width: 500,
-						  height: 500,
-						  position: ['center', 'right'],
-						  show: {
-							effect: "blind",
-							duration: 1000
-						  },
-						  hide: {
-							effect: "explode",
-							duration: 1000
-						  }
-						});
-					 
-						$( "#informationButton" ).click(function() {
-						  $( "#InformationArea" ).dialog( "open" );
-						});
-
-                    // var querBu = document.getElementById('QueryButton');
-                    // querBu.onclick = showQuery;
-                    // function showQuery() {
-                        // if (document.getElementById("queryArea").style.display == "block")
-                            // document.getElementById("queryArea").style.display = "none";
-                        // else
-                            // document.getElementById("queryArea").style.display = "block";
-                        // return;
-                    // }
+                    var infbu = document.getelementbyid('informationbutton');
+                    infbu.onclick = showinf;
+                    function showinf() {
+                        if (document.getelementbyid("informationarea").style.display == "block")
+                            document.getelementbyid("informationarea").style.display = "none";
+                        else
+                            document.getelementbyid("informationarea").style.display = "block";
+                        return;
+                    }
 					
-					$( "#queryArea" ).dialog({
-						  autoOpen: false,
-						  show: {
-							effect: "blind",
-							duration: 1000
-						  },
-						  hide: {
-							effect: "explode",
-							duration: 1000
-						  }
-						});
-					 
-						$( "#QueryButton" ).click(function() {
-						  $( "#queryArea" ).dialog( "open" );
-						});
+
+                    var querbu = document.getelementbyid('querybutton');
+                    querbu.onclick = showquery;
+                    function showquery() {
+                        if (document.getelementbyid("queryarea").style.display == "block")
+                            document.getelementbyid("queryarea").style.display = "none";
+                        else
+                            document.getelementbyid("queryarea").style.display = "block";
+                        return;
+                    }
+					
 					
 					createSlider();
 					

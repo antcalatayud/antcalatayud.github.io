@@ -68,7 +68,7 @@
         #legendWrapper {
             padding: 20px 0 0 0;
         }
-       <!--  #queryArea {
+        #queryArea {
             position: absolute;
             font-family: arial;
             margin: 5px;
@@ -79,7 +79,7 @@
             right: 30px;
             top: 70px;
             box-shadow: 0 0 5px #888;
-        } -->
+        }
     </style>
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -93,7 +93,8 @@
     <div class="navbar navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+               <!--  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"> -->
+			   <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
@@ -128,6 +129,14 @@
                     <!-- <li style="padding-top: 9px">
                         <div id="search"></div>
                     </li> -->
+					<li class="dropdown">
+					  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Layers <span class="caret"></span></a>
+					  <ul class="dropdown-menu" role="menu">
+						<li><input type='checkbox' class='list_item' id='DiseasesLayersOnOff' />Diseases</li>
+						<li><input type='checkbox' class='list_item' id='EnvironmentLayersOnOff' />Enviroment</li>
+						<li><input type='checkbox' class='list_item' id='HospitalsLayersOnOff'/>Hospitals</li>
+					  </ul>
+					</li>
                     <li><a id="legendButton">Legend</a>
                     </li>
                     <li><a href="../../">Go Back</a>
