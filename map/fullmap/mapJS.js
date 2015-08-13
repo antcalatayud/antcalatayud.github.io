@@ -146,8 +146,8 @@ var layer, legend;
 				function execute () {
 					map.graphics.clear();
 				var queryTextString = ""
-				var lungValueMax = $( "#amountLung" ).val( ui.values[ 0 ]);
-				var lungValueMin = $( "#amountLung" ).val( ui.values[ 1 ]);
+				var lungValueMax =  $("#samountLung").slider("values")[0];
+				var lungValueMin = $("#samountLung").slider("values")[1];
 				var ColonValue = dom.byId("amountColon").value;
 				var InfantValue = dom.byId("amountColon").value;
 				var AirValue = dom.byId("amountColon").value;
