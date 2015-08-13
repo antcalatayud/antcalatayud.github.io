@@ -377,6 +377,9 @@ var layer, legend;
                     // }
 					$( "#InformationArea" ).dialog({
 						  autoOpen: false,
+						  autoResize: true,
+						  height: "auto",
+						  position: ['center', 'right']
 						  show: {
 							effect: "blind",
 							duration: 1000
