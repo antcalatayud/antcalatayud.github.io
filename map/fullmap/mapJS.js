@@ -148,10 +148,10 @@ var layer, legend;
 				var queryTextString = ""
 				var lungValue = dom.byId("amountLung").value;
 				var ColonValue = dom.byId("amountColon").value;
-				var InfantValue = = dom.byId("amountColon").value;
-				var AirValue = = dom.byId("amountColon").value;
-				var WaterValue = = dom.byId("amountWater").value;
-				var LandValue = = dom.byId("amountLand").value;
+				var InfantValue = dom.byId("amountColon").value;
+				var AirValue = dom.byId("amountColon").value;
+				var WaterValue = dom.byId("amountWater").value;
+				var LandValue = dom.byId("amountLand").value;
 					//Build Query
 					if (document.getElementById('LungCheckBox').checked) {						
 						queryTextString = "Lung_Measu > '" + lungValue + "'";
