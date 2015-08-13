@@ -243,7 +243,7 @@ var layer, legend;
 				
 				on(dom.byId("DiseasesLayersOnOff"), "change", updateLayerVisibility);
 				
-				function updateLayerVisibilit()
+				function updateLayerVisibility()
 				{
 					
 					layer.visible = false;
