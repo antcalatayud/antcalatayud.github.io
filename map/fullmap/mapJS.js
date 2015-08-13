@@ -246,7 +246,7 @@ var layer, legend;
 				function updateLayerVisibility()
 				{
 					
-					layer.visible = false;
+					layer.hide()
 				};
 
                 function createRenderer(field) {
