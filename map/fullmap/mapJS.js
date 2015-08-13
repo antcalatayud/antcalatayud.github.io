@@ -247,7 +247,7 @@ var layer, legend;
 				{
 					
 					layer.visible = false;
-				}
+				};
 
                 function createRenderer(field) {
                     //smart mapping functionality begins
