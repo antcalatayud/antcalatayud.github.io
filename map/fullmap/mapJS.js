@@ -146,7 +146,8 @@ var layer, legend;
 				function execute () {
 					map.graphics.clear();
 				var queryTextString = ""
-				var lungValue = dom.byId("amountLung").value;
+				var lungValueMax = dom.byId("amountLung").value[0];
+				var lungValueMin = dom.byId("amountLung").value[1];
 				var ColonValue = dom.byId("amountColon").value;
 				var InfantValue = dom.byId("amountColon").value;
 				var AirValue = dom.byId("amountColon").value;
@@ -386,7 +387,7 @@ var layer, legend;
 							  max: 46,
 							  value: [5,10],
 							  slide: function( event, ui ) {
-								$( "#amountLung" ).val( ui.values[0],ui.values[1] );} //,
+								$( "#amountLung" ).val( "$" + ui.values[ 0 ] + " - $" + ui.values[ 1 ] );;} //,
 							  //change: queryLayer
 						});
 						$( "#ColonSlider" ).slider({
@@ -439,7 +440,7 @@ var layer, legend;
 						});							
 					}
 					
-					$( "#amountLung" ).val( $( "#slider-vertical" ).slider( "values",0) + $( "#slider-vertical" ).slider( "values",1));
+					$( "#amountLung" )val( "$" + $( "#slider-range" ).slider( "values", 0 ) + " - $" + $( "#slider-range" ).slider( "values", 1 ) );
 					$( "#amountColon" ).val( $( "#slider-vertical" ).slider( "value" ) );
 					$( "#amountInfant" ).val( $( "#slider-vertical" ).slider( "value" ) );
 					$( "#amountAir" ).val( $( "#slider-vertical" ).slider( "value" ) );
