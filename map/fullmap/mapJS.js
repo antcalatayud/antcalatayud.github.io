@@ -170,19 +170,19 @@ var layer, legend;
 					if (document.getElementById('ColonCheckBox').checked) {						
 						if (queryTextString == "")
 						{
-							queryTextString = "(Colon_Meas BETWEEN '" + colonValueMax + "' AND '" + colonValueMin + "')";
+							queryTextString = "(Colon_Meas BETWEEN '" + colonValueMin  + "' AND '" + colonValueMax + "')";
 						}
 						else{
-							queryTextString = queryTextString + " AND (Colon_Meas BETWEEN '" + colonValueMax + "' AND '" + colonValueMin + "')";
+							queryTextString = queryTextString + " AND (Colon_Meas BETWEEN '" + colonValueMin + "' AND '" + colonValueMax + "')";
 						}
 					}					
 					if (document.getElementById('InfantCheckBox').checked) {						
 						if (queryTextString == "")
 						{
-							queryTextString = "(Infant_Mea BETWEEN '" + infantValueMax + "' AND '" + infantValueMin + "')";
+							queryTextString = "(Infant_Mea BETWEEN '" + infantValueMin + "' AND '" + infantValueMax + "')";
 						}
 						else{
-							queryTextString = queryTextString + "AND (Infant_Mea BETWEEN '" + infantValueMax + "' AND '" + infantValueMin + "')";
+							queryTextString = queryTextString + "AND (Infant_Mea BETWEEN '" + infantValueMin + "' AND '" + infantValueMax + "')";
 						}
 					}
 					
