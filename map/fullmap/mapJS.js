@@ -1,4 +1,4 @@
-var layer, legend;
+var layer, legend, QualityLayer, HospitalLayer, ResultGraphicLayer;
 
         require([
 				"dojo/dom",
@@ -16,6 +16,8 @@ var layer, legend;
 				"esri/tasks/query", "esri/tasks/QueryTask",
 				"esri/symbols/SimpleFillSymbol","esri/symbols/SimpleLineSymbol",
 				 "esri/graphic", "esri/lang","esri/Color",
+				"esri/renderers/HeatmapRenderer",
+				"esri/layers/GraphicsLayer",
 
                 "dojo/_base/array",
                 
@@ -43,6 +45,8 @@ var layer, legend;
 				SimpleFillSymbol,SimpleLineSymbol,
 				 Graphic, esriLang,
 				Color,
+				HeatmapRenderer,
+				GraphicsLayer,
 
                 array,
                 domConstruct,
@@ -85,43 +89,99 @@ var layer, legend;
                 ////
                 //////SEARCH
                 ////
-                // var s = new Search({
-                    // map: map
-                // }, "search");
-                // s.startup();
+                var s = new esri.dijit.Search({
+                    map: map
+                }, "search");
+                s.startup();
                 ////
                 //////Fields
                 ////
 
-                var fieldName = "Lung_Measu";
+                var fieldName = "Lung_M";
 
                 var fields = {
-                    "Lung_Measu": "Lung Cancer Deaths (per 100,000 people per Sq. Mi.)",
-                    "Colon_Meas": "Colon Cancer Deaths (per 100,000 people per Sq. Mi.)",
-                    "Infant_Mea": "Infant Mortality Rate (Deaths per 1,000)"
+                    "Lung_M": "Lung Cancer Deaths (per 100,000 people per Sq. Mi.)",
+                    "Colon_M": "Colon Cancer Deaths (per 100,000 people per Sq. Mi.)",
+                    "Infant_M": "Infant Mortality Rate (Deaths per 1,000)",
+					"EQI_22July": "Overall Environmental Quality Index (22 July 2013)",
+                    "air_EQI": "Overall Air Environmental Quality Index",
+                    "water_EQI": "Overall Water Environmental Quality Index",
+					"land_EQI": "Overall Land Environmental Quality Index",
+					"built_EQI": "Overall Buildings Environmental Quality Index",
+					"sociod_EQI": "Overall Socio-demographic Environmental Quality Index"
                 };
-                var outFields = ["Lung_Measu", "Colon_Meas", "Infant_Mea"];
-				 var outFieldsQ = ["County_NAM","Lung_Measu", "Colon_Meas", "Infant_Mea"];
+				
+                var outFields = ["Lung_M", "Colon_M", "Infant_M","EQI_22July","air_EQI","water_EQI","land_EQI","built_EQI","sociod_EQI"];
+				var outFieldsQ = ["County_NAM","Lung_M", "Colon_M", "Infant_M","EQI_22July","air_EQI","water_EQI","land_EQI","built_EQI","sociod_EQI"];
 
                 ////
                 //////LAYERS
                 ////			
-                layer = new FeatureLayer("http://services5.arcgis.com/0EYL4OTKhMA0OgEx/ArcGIS/rest/services/All_Disseases/FeatureServer/0", {
+                layer = new FeatureLayer("http://services5.arcgis.com/0EYL4OTKhMA0OgEx/arcgis/rest/services/All_Data_Health/FeatureServer/0", {
                     "id": "Disseases",
                     "mode": FeatureLayer.MODE_SNAPSHOT,
-                    "outFields": outFields,
-                    "opacity": 0.8
+                    "outFields": outFieldsQ,
+                    "opacity": 0.8,
+					"visible": false
                 });
                 map.addLayer(layer);
 
-                //var QualityLayer = new FeatureLayer ("http://gispub.epa.gov/arcgis/rest/services/ORD/EnvironmentalQualityIndex/MapServer/1", {
-                //	"mode": FeatureLayer.MODE_ONDEMAND, 
-                //	"outFields":["*"],
-                //	"opacity":0.8
-                //}); 
-                //map.addLayers([ QualityLayer]);
+                QualityLayer = new FeatureLayer ("http://gispub.epa.gov/arcgis/rest/services/ORD/EnvironmentalQualityIndex/MapServer/0", {
+					"id": "Environmental Quality Index",
+                	"mode": FeatureLayer.MODE_ONDEMAND, 
+                	"outFields":["*"],
+                	"opacity":0.8,					
+					"visible": false
+                }); 
+                map.addLayers([ QualityLayer]);
 				
-				var queryTask = new QueryTask("http://services5.arcgis.com/0EYL4OTKhMA0OgEx/ArcGIS/rest/services/All_Disseases/FeatureServer/0");
+				 HospitalLayer = new FeatureLayer ("http://services5.arcgis.com/0EYL4OTKhMA0OgEx/arcgis/rest/services/Hospitals_Health/FeatureServer/0", {
+					"id": "Hospitals and Health centres",
+                	"mode": FeatureLayer.MODE_ONDEMAND, 
+                	"outFields":["*"],
+                	"opacity":0.8,					
+					"visible": false
+                }); 
+				
+				var heatmapRenderer = new HeatmapRenderer();
+				HospitalLayer.setRenderer(heatmapRenderer);
+				
+                map.addLayers([ HospitalLayer]);
+				
+				ResultGraphicLayer = new GraphicsLayer();			
+				 
+				var template = new esri.InfoTemplate();
+				template.setTitle(getTitleContent);
+                template.setContent(getTextContent);
+				
+				ResultGraphicLayer.setInfoTemplate(template);
+				map.addLayer(ResultGraphicLayer);
+				function getTitleContent(graphic) {		
+					var t = "${County_NAM}";
+						
+					var title = esriLang.substitute(graphic.attributes,t);
+						
+					return title;
+				}
+				function getTextContent(graphic) {					
+					 var t = "<b>Lung Cancer Deaths (per 100,000 people per Sq. Mi.): </b>${Lung_M:NumberFormat}<br><hr>"
+						+ "<b>Colon Cancer Deaths (per 100,000 people per Sq. Mi.) per Sq. Mi.: </b>${Colon_M:NumberFormat}<br><hr>"
+						+ "<b>Infant Mortality Rate ( Deaths per 1,000): </b>${Infant_M:NumberFormat}<br><hr>"						
+						+ "<b>Overall Environmental Quality Index (22 July 2013): </b>${EQI_22July:NumberFormat}<br><hr>"
+						+ "<b>Overall Air Environmental Quality Index (22 July 2013): </b>${air_EQI:NumberFormat}<br><hr>"
+						+ "<b>Overall Water Environmental Quality Index (22 July 2013): </b>${water_EQI:NumberFormat}<br><hr>"
+						+ "<b>Overall Land Environmental Quality Index (22 July 2013): </b>${land_EQI:NumberFormat}<br><hr>"
+						+ "<b>Overall Buildings Environmental Quality Index (22 July 2013): </b>${built_EQI:NumberFormat}<br><hr>"
+						+ "<b>Overall Socio-demographic Environmental Quality Index (22 July 2013): </b>${sociod_EQI:NumberFormat}";
+						
+						var content = esriLang.substitute(graphic.attributes,t);
+						
+						 return content;				
+				
+				}
+				
+				
+				var queryTask = new QueryTask("http://services5.arcgis.com/0EYL4OTKhMA0OgEx/arcgis/rest/services/All_Data_Health/FeatureServer/0");
 				
 				var query = new Query();
 				query.returnGeometry = true;
@@ -136,15 +196,67 @@ var layer, legend;
 				new Color([125,125,125,0.35])
 				);
 				
+				//map.on("onUpdateStart", showLoading);
+				//map.on("onUpdateEnd", hideLoading);
+				dojo.connect(map, "onUpdateStart", showLoading);
+				dojo.connect(map, "onUpdateEnd", hideLoading); 
+				dojo.addClass(map.infoWindow.domNode, "myTheme");
+				
+				function showLoading() {
+					displayWait("Map loading please wait..");
+					console.log("Loading");
+					
+				}
+				function displayWait(txtContent) {
+					if (!txtContent) {
+						txtContent = "Please wait...";
+					}
+					txtContent = "<img src=\"../../img/ajax-loader.gif\" alt=\"\" /> <font size=1>" + txtContent + "</font>";
+					var thisdialog = new dijit.Dialog({ title: "", content: txtContent, id: "dialogWait"});
+					dojo.body().appendChild(thisdialog.domNode);
+					//thisdialog.closeButtonNode.style.display='none';
+					thisdialog.titleBar.style.display = 'none';
+					thisdialog.startup();
+					thisdialog.show();
+				}
+				
+				function displayQueryWait(txtContent) {
+					if (!txtContent) {
+						txtContent = "Please wait...";
+					}
+					txtContent = "<img src=\"../../img/ajax-loader.gif\" alt=\"\" /> <font size=1>" + txtContent + "</font>";
+					var thisdialog = new dijit.Dialog({ title: "", content: txtContent, id: "dialogQueryWait"});
+					dojo.body().appendChild(thisdialog.domNode);;
+					thisdialog.titleBar.style.display = 'none';
+					thisdialog.startup();
+					thisdialog.show();
+				}
+				
+
+				function hideLoading() {
+				console.log("Finish Loading");
+					var thisdialog = dijit.byId("dialogWait");
+					thisdialog.hide();
+					thisdialog.destroy();
+				}
+				
+				function hideQueryWait() {
+				console.log("Finish Loading");
+					var thisdialog = dijit.byId("dialogQueryWait");
+					thisdialog.hide();
+					thisdialog.destroy();
+				}
+				
 				
 				on(dom.byId("execute"), "click", execute);
 				
 				on(dom.byId("clearGraphics"), "click", clearGraphicsFun);
 				function clearGraphicsFun(){
-					map.graphics.clear();				
+					ResultGraphicLayer.clear();				
 				}
 				function execute () {
-					map.graphics.clear();
+				displayQueryWait("Building Query..");
+				ResultGraphicLayer.clear();
 				var queryTextString = ""
 				var lungValueMax =  $("#LungSlider").slider("values")[1];
 				var lungValueMin = $("#LungSlider").slider("values")[0];
@@ -165,76 +277,104 @@ var layer, legend;
 				
 					//Build Query
 					if (document.getElementById('LungCheckBox').checked) {						
-						queryTextString = "(Lung_Measu BETWEEN '" + lungValueMin + "' AND '" + lungValueMax + "')"; 
+						queryTextString = "(Lung_M BETWEEN '" + lungValueMin + "' AND '" + lungValueMax + "')"; 
 					} 					
 					if (document.getElementById('ColonCheckBox').checked) {						
 						if (queryTextString == "")
 						{
-							queryTextString = "(Colon_Meas BETWEEN '" + colonValueMin  + "' AND '" + colonValueMax + "')";
+							queryTextString = "(Colon_M BETWEEN '" + colonValueMin  + "' AND '" + colonValueMax + "')";
 						}
 						else{
-							queryTextString = queryTextString + " AND (Colon_Meas BETWEEN '" + colonValueMin + "' AND '" + colonValueMax + "')";
+							queryTextString = queryTextString + " AND (Colon_M BETWEEN '" + colonValueMin + "' AND '" + colonValueMax + "')";
 						}
 					}					
 					if (document.getElementById('InfantCheckBox').checked) {						
 						if (queryTextString == "")
 						{
-							queryTextString = "(Infant_Mea BETWEEN '" + infantValueMin + "' AND '" + infantValueMax + "')";
+							queryTextString = "(Infant_M BETWEEN '" + infantValueMin + "' AND '" + infantValueMax + "')";
 						}
 						else{
-							queryTextString = queryTextString + "AND (Infant_Mea BETWEEN '" + infantValueMin + "' AND '" + infantValueMax + "')";
+							queryTextString = queryTextString + "AND (Infant_M BETWEEN '" + infantValueMin + "' AND '" + infantValueMax + "')";
 						}
 					}
 					
 					if (document.getElementById('AirCheckBox').checked) {						
 						if (queryTextString == "")
 						{
-							queryTextString = "Air_Mea >= '" + AirValue + "'";
+							queryTextString = "(air_EQI BETWEEN '" + airValueMin + "' AND '" + airValueMax + "')";
 						}
 						else{
-							queryTextString = queryTextString + "AND Air_Mea >= '" + AirValue + "'";
+							queryTextString = queryTextString + "AND (air_EQI BETWEEN '" + airValueMin + "' AND '" + airValueMax + "')";
 						}
 					}
-				
-				
-				
-				
-				
+					
+					if (document.getElementById('WaterCheckBox').checked) {						
+						if (queryTextString == "")
+						{
+							queryTextString = "(water_EQI BETWEEN '" + waterValueMin + "' AND '" + waterValueMax + "')";
+						}
+						else{
+							queryTextString = queryTextString + "AND (water_EQI BETWEEN '" + waterValueMin + "' AND '" + waterValueMax + "')";
+						}
+					}
+					
+					if (document.getElementById('LandCheckBox').checked) {						
+						if (queryTextString == "")
+						{
+							queryTextString = "(land_EQI BETWEEN '" + landValueMin + "' AND '" + landValueMax + "')";
+						}
+						else{
+							queryTextString = queryTextString + "AND (land_EQI BETWEEN '" + landValueMin + "' AND '" + landValueMax + "')";
+						}
+					}
 				
 				if (queryTextString == "")
 					{
 						alert("Please select one variable");
+						hideQueryWait();
 						return;
 					}
 					else{
 						query.where = queryTextString;
-					}
-				 
+					}				 
 				  
 				  queryTask.execute(query, showResults);
 				}
 				
 				layer.on("click", function(evt){
-					var t = "<b>${County_NAM}</b><hr><b>Lung Cancer Deaths (per 100,000 people per Sq. Mi.): </b>${Lung_Measu:NumberFormat}<br>"
-						+ "<b>Colon Cancer Deaths (per 100,000 people per Sq. Mi.) per Sq. Mi.: </b>${Colon_Meas:NumberFormat}<br>"
-						+ "<b>Infant Mortality Rate ( Deaths per 1,000): </b>${Infant_Mea:NumberFormat}";
+					var t = "<b>${County_NAM}</b><hr><b>Lung Cancer Deaths (per 100,000 people per Sq. Mi.): </b>${Lung_M:NumberFormat}<br>"
+						+ "<b>Colon Cancer Deaths (per 100,000 people per Sq. Mi.) per Sq. Mi.: </b>${Colon_M:NumberFormat}<br>"
+						+ "<b>Infant Mortality Rate ( Deaths per 1,000): </b>${Infant_M:NumberFormat}<br>"						
+						+ "<b>Overall Environmental Quality Index (22 July 2013): </b>${EQI_22July:NumberFormat}<br>"
+						+ "<b>Overall Air Environmental Quality Index (22 July 2013): </b>${air_EQI:NumberFormat}<br>"
+						+ "<b>Overall Water Environmental Quality Index (22 July 2013): </b>${water_EQI:NumberFormat}<br>"
+						+ "<b>Overall Land Environmental Quality Index (22 July 2013): </b>${land_EQI:NumberFormat}<br>"
+						+ "<b>Overall Buildings Environmental Quality Index (22 July 2013): </b>${built_EQI:NumberFormat}<br>"
+						+ "<b>Overall Socio-demographic Environmental Quality Index (22 July 2013): </b>${sociod_EQI:NumberFormat}";
   
 						var content = esriLang.substitute(evt.graphic.attributes,t);
 						
-						dom.byId("InformationArea").innerHTML = content;
-				});
-				function showResults (results) {
+						dom.byId("InformationAreaText").innerHTML = content;
+				});	
+				
+				function showResults (results) {			
 				  var resultItems = [];
 				  var resultCount = results.features.length;
+				  hideQueryWait();
+				  displayQueryWait("Drawing the " + resultCount + " councils that have been founded");
 				  if (resultCount == 0)				  
 				  {
+					hideQueryWait();
 					alert("No results, please try again");
+					
 					return;				  
 				  }
 				  for (var i = 0; i < resultCount; i++) {
-					var highlightGraphic = new Graphic(results.features[i].geometry,highlightSymbol);
-					map.graphics.add(highlightGraphic);
+					var highlightGraphic = new Graphic(results.features[i].geometry,highlightSymbol,results.features[i].attributes);
+					ResultGraphicLayer.add(highlightGraphic);
+					//map.graphics.add(highlightGraphic);
 				  }
+				  hideQueryWait();
 				}
 
                 layer.on("load", function() {
@@ -242,7 +382,8 @@ var layer, legend;
                 });
 				
 				on(dom.byId("DiseasesLayersOnOff"), "change", updateLayerVisibility);
-				
+				on(dom.byId("EnvironmentLayersOnOff"), "change", updateLayerVisibility);
+				on(dom.byId("HospitalsLayersOnOff"), "change", updateLayerVisibility)
 				function updateLayerVisibility()
 				{
 					if (document.getElementById('DiseasesLayersOnOff').checked) {
@@ -252,8 +393,19 @@ var layer, legend;
 						layer.hide();
 						
 					}
-					
-					
+					if (document.getElementById('EnvironmentLayersOnOff').checked) {
+						QualityLayer.show()
+					}
+					else{
+						QualityLayer.hide();
+						
+					}
+					if (document.getElementById('HospitalsLayersOnOff').checked) {
+						HospitalLayer.show()
+					}
+					else{
+						HospitalLayer.hide();						
+					}
 				};
 
                 function createRenderer(field) {
@@ -300,7 +452,8 @@ var layer, legend;
                         }]
                     }, legendDiv);
                     legend.startup();
-                }
+                }				
+				
 
                 // create a store and a filtering select for the county layer's fields
                 var fieldNames, fieldStore, fieldSelect;
@@ -370,9 +523,17 @@ var layer, legend;
                                 break;
                         }
                     });
+					
+					
+					$('.tooltip').tooltip();
+					
 
-                    var legBu = document.getElementById('legendButton');
+
+                    var legBu = document.getElementById('legendButton');					
                     legBu.onclick = showLegend;
+					var CloselegBu = document.getElementById('closeLegend');					
+                    CloselegBu.onclick = showLegend;
+					
                     function showLegend() {					
                         if (document.getElementById("feedback").style.display == "block")
                             document.getElementById("feedback").style.display = "none";
@@ -383,6 +544,8 @@ var layer, legend;
 					
 					var infBu = document.getElementById('informationButton');
                     infBu.onclick = showInf;
+					var CloseinfBu = document.getElementById('closeInf');
+                    CloseinfBu.onclick = showInf;
                     function showInf() {					
                         if (document.getElementById("InformationArea").style.display == "block")
                             document.getElementById("InformationArea").style.display = "none";
@@ -393,6 +556,8 @@ var layer, legend;
 					
                     var querBu = document.getElementById('QueryButton');
                     querBu.onclick = showQue;
+					var closequerBu = document.getElementById('closeQuery');
+                    closequerBu.onclick = showQue;
                     function showQue() {					
                         if (document.getElementById("queryArea").style.display == "block")
                             document.getElementById("queryArea").style.display = "none";
@@ -434,9 +599,10 @@ var layer, legend;
 						$( "#AirSlider" ).slider({
 							  orientation: "vertical",
 							   range: true,
-							  max: 2.79,
+							   min: -3.3,
+							  max: 2.9,
 							  step: 0.1,
-							   values: [0.5,2.5],
+							   values: [-1.5,2.5],
 							  slide: function( event, ui ) {
 								$( "#amountAir" ).val( ui.values[ 0 ] + " - " + ui.values[ 1 ] );} //,
 							  //change: queryLayer
@@ -444,9 +610,10 @@ var layer, legend;
 						$( "#WaterSlider" ).slider({
 							  orientation: "vertical",
 							   range: true,
-							  max: 1.48,
+							  max: 1.5,
+							  min: -1.7,
 							   step: 0.1,
-							   values: [0.2,1.4],
+							   values: [-1,1.4],
 							  slide: function( event, ui ) {
 								$( "#amountWater" ).val( ui.values[ 0 ] + " - " + ui.values[ 1 ] );} //,
 							  //change: queryLayer
@@ -454,9 +621,10 @@ var layer, legend;
 						$( "#LandSlider" ).slider({
 							  orientation: "vertical",
 							   range: true,
-							  max: 2.09, 
+							  max: 2.2, 
+							  min: -5,
 							  step: 0.1,
-							  values: [0.2,1.4],
+							  values: [-2,1.4],
 							  slide: function( event, ui ) {
 								$( "#amountLand" ).val( ui.values[ 0 ] + " - " + ui.values[ 1 ] );} //,
 							  //change: queryLayer
@@ -470,5 +638,6 @@ var layer, legend;
 					$( "#amountWater" ).val( $( "#WaterSlider" ).slider( "values", 0 ) + " - " + $( "#WaterSlider" ).slider( "values", 1 ) );
 					$( "#amountLand" ).val( $( "#LandSlider" ).slider( "values", 0 ) + " - " + $( "#LandSlider" ).slider( "values", 1 ) );
 					
-				};
+					
+					};
 	});

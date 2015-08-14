@@ -31,10 +31,59 @@ body {
 .navbar a:hover {
 	color:#23527c;
 }
-
+.inblockdivs {
+	display: inline-block;
+}
 .slidersBox {
   display: inline-block;
   width: 120px;
-  height: 70px;
+  height: 20px;
   margin: 1em;
 }
+
+.shortSlider{
+	height: 70px;
+}
+
+	.esriPopup.myTheme .titlePane,
+      .dj_ie7 .esriPopup.myTheme .titlePane .title {
+       background-color: #ffffff;
+        color: #004d8d;
+        font-weight: bold;
+		height:inherit;e
+      }
+      .esriPopup.myTheme .titlePane {
+        border-bottom: 1px solid #121310;
+      }
+      .esriPopup.myTheme a {
+        color: #a4cc76;
+      }
+      .esriPopup.myTheme .titleButton,
+      .esriPopup.myTheme .pointer,
+      .esriPopup.myTheme .outerPointer,
+      .esriPopup.myTheme .esriViewPopup .gallery .mediaHandle,      
+      .esriPopup.myTheme .contentPane,
+      .esriPopup.myTheme .actionsPane {
+        border-color: solid #004d8d;
+        background-color: #004d8d;
+        color:#ffffff;
+     }
+	 .esriPopup.myTheme .close {
+		  position: absolute; top: 0px; right: 0px;
+		  cursor: pointer;
+		  background: url(http://serverapi.arcgisonline.com/jsapi/arcgis/2.6/js/dojo/dijit/themes/claro/layout/images/tabClose.png) no-repeat scroll 0 0 transparent;
+		  width: 12px; height: 12px;
+		  margin: 3px 3px 0px 0px;
+		}
+	 .esriPopup.myTheme .close:hover, .esriPopup.myTheme  .maximize:hover , .esriPopup.myTheme  .restore:hover  {
+		background-color: #F7FCFF;
+		}
+	 .esriPopup.myTheme.maximize {
+		position: absolute; top: 0px; right: 12px;
+		  cursor: pointer;
+		  background: url(http://serverapi.arcgisonline.com/jsapi/arcgis/2.6/js/dojo/dijit/themes/claro/form/images/buttonArrows.png);
+		  background-position: -51px 53%;
+		  background-repeat: no-repeat;
+		  width: 15px; height: 15px;
+		  margin: 3px 3px 0px 0px;
+		}

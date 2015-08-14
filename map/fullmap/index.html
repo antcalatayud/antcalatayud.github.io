@@ -16,8 +16,8 @@
     <!-- Optional theme -->
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css" />
     <!-- ESRI CSS -->
-    <link rel="stylesheet" href="//js.arcgis.com/3.11/esri/css/esri.css" />
-    <link rel="stylesheet" href="//js.arcgis.com/3.11/dijit/themes/claro/claro.css" />
+    <link rel="stylesheet" href="//js.arcgis.com/3.14/esri/css/esri.css" />
+    <link rel="stylesheet" href="//js.arcgis.com/3.14/dijit/themes/claro/claro.css" />
     <!-- Local stylesheet -->
     <link href="fullmap.css" rel="stylesheet">
 	
@@ -53,7 +53,7 @@
 		
         #feedback {
             position: absolute;
-            height: 410px;
+            height: 430px;
             font-family: arial;
             margin: 5px;
             padding: 10px;
@@ -93,13 +93,12 @@
     <div class="navbar navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
-               <!--  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"> -->
-			   <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+               <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#">Human Health Challenge Map</a>
+                <a class="navbar-brand" href="#">Human Health Challenge Map</a> <!-- Human Health Challenge Map -->
             </div>
             <div class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">
@@ -126,19 +125,28 @@
                     </li>
                     <li><a id="informationButton">Information</a>
                     </li>
-                    <!-- <li style="padding-top: 9px">
+                    <li style="padding-top: 9px">
                         <div id="search"></div>
-                    </li> -->
+                    </li>
 					<li class="dropdown">
 					  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Layers <span class="caret"></span></a>
 					  <ul class="dropdown-menu" role="menu">
-						<li><input type='checkbox' class='list_item' id='DiseasesLayersOnOff' checked/>Diseases</li>
-						<li><input type='checkbox' class='list_item' id='EnvironmentLayersOnOff' />Enviroment</li>
-						<li><input type='checkbox' class='list_item' id='HospitalsLayersOnOff'/>Hospitals</li>
+						<li><input type='checkbox' class='list_item' id='DiseasesLayersOnOff' style="padding-left: 10px;"  />USA Data<img src="../../img/question.png" alt="ToolTip" height="11" width="11" title="This map service portrays the number of deaths per 100,000 people per square mile from lung and colon cancer." ></li>
+						<li><input type='checkbox' class='list_item' id='EnvironmentLayersOnOff' style="padding-left: 10px;" />Environmental Quality Index<img src="../../img/question.png" alt="ToolTip" height="11" width="11" title="The US Environmental Protection Agency's (EPA) National Health and Environmental Effects Research Laboratory (NHEERL) in the Environmental Public Health Division (EPHD) is currently engaged in research aimed at developing a measure that estimates overall environmental quality at the county level for the United States. This work is being conducted as an effort to learn more about how various environmental factors simultaneously contribute to health disparities in low-income and minority populations, and to better estimate the total environmental and social context to which humans are exposed. This dataset contains the finalized Environmental Quality Index (EQI), and an index for each of the associated domains (air, water, land, built, and sociodemographic environment). Indices are at the county level for all counties in the United States. More information about the EQI can be found at https://edg.epa.gov/data/Public/ORD/NHEERL/EQI. 1) The data used to create the index attempted to balance quality measurement with geographic breadth of coverage - index does reasonable job estimating the general environment, but less useful for estimating specific environments. 2) Not all relevant environmental exposures are necessarily included in the index. Data inclusion is dependent on data collection and coverage; if relevant data are not being collected, the exposure will not be captured in the EQI. 3) In areas where little data collection occurs the data may be over representing the environmental profile of those areas. For example, a county that contains a national park without data collected and a town with data collection will be solely represented by the town area, though that may be inaccurate for the entire county. 4) Focused solely on the outside environment, which may not be the most relevant exposure in relation to human health and disease. 5) Population-level analyses offer little predictive utility for individual-level risk. Therefore, while the index may be useful at identifying less healthy environments, it will not be useful for predicting adverse outcomes" ></li>
+						<li><input type='checkbox' class='list_item' id='HospitalsLayersOnOff' style="padding-left: 10px;" />Hospitals<img src="../../img/question.png" alt="ToolTip" height="11" width="11" title="This map service shows the locations of healthcare facilities (hospitals, medical centers, federally qualified health centers, home health services, and nursing homes) in the United States." ></li>
 					  </ul>
 					</li>
-                    <li><a id="legendButton">Legend</a>
-                    </li>
+                    <li><a id="legendButton">Legend</a></li>
+					<!-- <li><a id="exportButton">Export</a></li> -->
+					 <!-- <li class="dropdown">
+					  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Export map <span class="caret"></span></a>
+					  <ul class="dropdown-menu" role="menu">
+						<li><input type='checkbox' class='list_item' id='ExportMap' style="padding-left: 10px;"  />Include Map  <img src="../../img/question.png" alt="ToolTip" height="11" width="11" title="nd colon cancer." ></li>
+						<li><input type='checkbox' class='list_item' id='ExportAttr' style="padding-left: 10px;"  />Include county attributes  <img src="../../img/question.png" alt="ToolTip" height="11" width="11" title="" ></li>
+						<li><a id="exportButton">Export!</a></li>
+					  </ul>
+					</li> -->
+                    
                     <li><a href="../../">Go Back</a>
                     </li>
                 </ul>
@@ -148,12 +156,18 @@
     </div>
 
     <!-- Bootstrap-map-js -->
+	<div id="testcase">
     <div id="mapDiv">
         <div id="LocateButton"></div>
         <div id="HomeButton"></div>
         <div id="InformationArea" style="display:none">
-            <span style="text-align:center;">Map Information</span>
-            <div id="field1">Click on a council to get the available information</div>
+			<div id="InformationAreaText">
+			
+				<span style="text-align:center;">Map Information</span>
+				<div id="field1">Click on a council to get the available information</div>				
+			</div>
+			<br>
+			<input id="closeInf" type="button" value="Close" style="float:right">
         </div>
         <div id="feedback" title="Basic information" style="display:none">
             <h3>USA Information</h3>
@@ -164,6 +178,8 @@
             <div id="fieldWrapper">
                 Currently selected attribute:
             </div>
+			<br>
+			<input id="closeLegend" type="button" value="Close" style="float:right">
         </div>
         <div id="queryArea" title="Query layers" style="display:none">
             <div id="info">
@@ -173,60 +189,67 @@
 				<div>
 					<div id="Lung" class="slidersBox">		
 						<p>
+							<img src="../../img/question.png" alt="ToolTip" height="11" width="11" title="Lung Cancer Deaths (per 100,000 people per SQMI)" >
 						  <label for="amount">Range of Lung Cancer:</label>
 						  <input type="text" id="amountLung" readonly style="border:0; color:#f6931f; font-weight:bold;"/>
 						</p>
-						<div id="LungSlider" style="text-align: center"></div>
-						<input type="checkbox" id="LungCheckBox">Add variable to query</<input>
+						<div id="LungSlider" style="text-align: center" class="shortSlider"></div>
+						<input type="checkbox" id="LungCheckBox">Add variable to query</input>
 					</div>
 					<div id="Colon" class="slidersBox">			
 						<p>
+							<img src="../../img/question.png" alt="ToolTip" height="11" width="11" title="Colon Cancer Deaths (per 100,000 people per SQMI)" >
 						  <label for="amount">Range of Colon Cancer:</label>
 						  <input type="text" id="amountColon" readonly style="border:0; color:#f6931f; font-weight:bold;" />
 						</p>
-						<div id="ColonSlider" style="text-align: center"></div>
+						<div id="ColonSlider" style="text-align: center" class="shortSlider"></div>
 						
-						<input type="checkbox" id="ColonCheckBox">Add variable to query</<input>
+						<input type="checkbox" id="ColonCheckBox">Add variable to query</input>
 					</div>
 					<div id="Infant" class="slidersBox">			
 						<p>
+							<img src="../../img/question.png" alt="ToolTip" height="11" width="11" title="Infant Mortality Rate ( Deaths per 1,000)" >
 						  <label for="amount">Range Amount of infant mortality:</label>
 						  <input type="text" id="amountInfant" readonly style="border:0; color:#f6931f; font-weight:bold;"/>
 						</p>
-						<div id="InfantSlider" style="text-align: center"></div>
-						<input type="checkbox" id="InfantCheckBox">Add variable to query</<input>
+						<div id="InfantSlider" style="text-align: center" class="shortSlider"></div>
+						<input type="checkbox" id="InfantCheckBox">Add variable to query</input>
 					</div>
 				</div>
 				<div>
 					<div id="Air" class="slidersBox">		
 						<p>
+						<img src="../../img/question.png" alt="ToolTip" height="11" width="11" title="Low EQI scores represent better environmental quality while higher EQI scores represent poorer environmental quality" >
 						  <label for="amount">Range Air Domain Index:</label>
 						  <input type="text" id="amountAir" readonly style="border:0; color:#f6931f; font-weight:bold;"/>
 						</p>
-						<div id="AirSlider" style="text-align: center"></div>
-						<input type="checkbox" id="AirCheckBox">Add variable to query</<input>
+						<div id="AirSlider" style="text-align: center" class="shortSlider"></div>
+						<input type="checkbox" id="AirCheckBox">Add variable to query</input>
 					</div>
-					<div id="Colon" class="slidersBox">			
+					<div id="Water" class="slidersBox">			
 						<p>
-						  <label for="amount">Range Water Domain Index:</label>
+							<img src="../../img/question.png" alt="ToolTip" height="11" width="11" title="Low EQI scores represent better environmental quality while higher EQI scores represent poorer environmental quality" >
+							<label for="amount" >Range Water Domain Index: </label>
 						  <input type="text" id="amountWater" readonly style="border:0; color:#f6931f; font-weight:bold;"/>
 						</p>
-						<div id="WaterSlider" style="text-align: center"></div>
-						<input type="checkbox" id="WaterCheckBox">Add variable to query</<input>
+						<div id="WaterSlider" style="text-align: center" class="shortSlider"></div>
+						<input type="checkbox" id="WaterCheckBox">Add variable to query</input>
 					</div>
-					<div id="Infant" class="slidersBox">			
+					<div id="LAnd" class="slidersBox">			
 						<p>
+						 <img src="../../img/question.png" alt="ToolTip" height="11" width="11" title="Low EQI scores represent better environmental quality while higher EQI scores represent poorer environmental quality" >
 						  <label for="amount">Range Land Domain Index:</label>
 						  <input type="text" id="amountLand"  readonly style="border:0; color:#f6931f; font-weight:bold;"/>
 						</p>
-						<div id="LandSlider" style="text-align: center"></div>
-						<input type="checkbox" id="LandCheckBox">Add variable to query</<input>
+						<div id="LandSlider" style="text-align: center" class="shortSlider"></div>
+						<input type="checkbox" id="LandCheckBox">Add variable to query</input>
 					</div>
 				</div>
 			</div>
 			<div>
 				<input id="execute" type="button" value="Get counties">
 				<input id="clearGraphics" type="button" value="Clear Graphics">
+				<input id="closeQuery" type="button" value="Close" style="float:right">
 			</div>
         </div>
 		
@@ -249,6 +272,10 @@
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
     <script src="//js.arcgis.com/3.14"></script>
     <script src="mapJS.js" type="text/javascript"></script>
+	<script type="text/javascript" src="pdf/jspdf.js"></script>
+	<script type="text/javascript" src="pdf/jspdf.plugin.standard_fonts_metrics.js"></script> 
+	<script type="text/javascript" src="pdf/jspdf.plugin.split_text_to_size.js"></script>               
+	<script type="text/javascript" src="pdf/jspdf.plugin.from_html.js"></script>
     
 </body>
 
